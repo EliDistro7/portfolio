@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { sanityFetch } from "@/sanity/lib/live";
 import { morePostsQuery, allPostsQuery } from "@/sanity/lib/queries";
@@ -28,7 +29,7 @@ const sourceSans = Source_Sans_Pro({
 });
 
 const Post = ({ post }) => {
-  console.log("post", post)
+ // console.log("post", post)
   const { 
     _id, 
     title, 
@@ -45,7 +46,7 @@ const Post = ({ post }) => {
   return (
     <article
       key={_id}
-      className="group relative flex flex-col gap-6 rounded-xl p-6 transition-all hover:bg-primary-50/50 hover:shadow-md"
+      className="group relative flex flex-col gap-6 rounded-xl p-6 py-3 px-0 transition-all hover:bg-primary-50/50 hover:shadow-md"
     >
       {/* Meta section with date, author, and translation badge */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
@@ -94,11 +95,20 @@ const Post = ({ post }) => {
               </>
             ) : coverImage?.asset ? (
               // Regular image thumbnail
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-neutral-100">
+              {/* Next.js Image Component (recommended) */}
               <img
-                 src={urlFor(coverImage).width(800).url()}
-                alt={coverImage.alt || ''}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                src={urlFor(coverImage).width(1200).quality(80).url()}
+                alt={coverImage.alt || 'Blog post cover image'}
+                fill
+                className="object-cover transition-all duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                placeholder="blur"
+                blurDataURL={urlFor(coverImage).width(20).quality(20).blur(50).url()}
               />
+              
+         
+            </div>
             ) : null}
           </div>
         )}
@@ -142,7 +152,7 @@ const Posts = ({
   heading,
   subHeading,
 }) => (
-  <div className="py-12 sm:py-16 lg:py-20">
+  <div className="py-8 sm:py-8 lg:py-12">
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       {heading && (
         <h2 className={`${baskerville.variable} font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900`}>
