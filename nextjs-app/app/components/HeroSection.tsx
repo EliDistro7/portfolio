@@ -9,6 +9,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
+import Link from 'next/link';
 
 
 
@@ -117,12 +118,12 @@ const heroContent = {
             </p>
 
             {/* CTA Button */}
-            <button className={`${sourceSans.variable} font-sans flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 rounded-lg transition-all duration-300 group shadow-lg hover:shadow-glow`}>
+            <Link href='/contact' className={`${sourceSans.variable} font-sans flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 rounded-lg transition-all duration-300 group shadow-lg hover:shadow-glow`}>
               <span className="font-bold tracking-wide">
                 {heroContent.cta[language]}
               </span>
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
-            </button>
+            </Link>
 
             {/* Stats (3-column grid) */}
             <div className={`${sourceSans.variable} font-sans mt-12 grid grid-cols-3 gap-6`}>
