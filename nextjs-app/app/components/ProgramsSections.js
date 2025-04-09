@@ -127,14 +127,6 @@ export const ProgramsSection = () => {
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <button className={`font-sans bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg transition-colors inline-flex items-center gap-2`}>
-            {programsContent.cta[language]}
-            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </button>
-        </div>
       </div>
     </section>
   );
