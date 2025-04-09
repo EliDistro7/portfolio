@@ -14,14 +14,11 @@ const navItems = {
     en: 'About Us',
     sw: 'Kuhusu Sisi',
   },
-  programs: {
-    en: 'Programs',
-    sw: 'Mipango',
+  blog: {
+    en: 'blog',
+    sw: 'blog',
   },
-  resources: {
-    en: 'Resources',
-    sw: 'Rasilimali',
-  },
+
   contact: {
     en: 'Contact',
     sw: 'Mawasiliano',
