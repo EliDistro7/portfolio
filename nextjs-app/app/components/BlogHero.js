@@ -30,16 +30,7 @@ export default function BlogHero() {
             </p>
           </div>
 
-          <button
-            onClick={toggleLanguage}
-            className="flex items-center gap-1.5 bg-primary-50 hover:bg-primary-100 text-primary-700 px-3 py-1.5 rounded-lg transition-all border border-primary-100"
-            aria-label={language === 'en' ? 'Switch to Swahili' : 'Switch to English'}
-          >
-            <Languages size={16} className="text-primary-600" />
-            <span className="font-medium text-sm">
-              {language === 'en' ? 'SW' : 'EN'}
-            </span>
-          </button>
+         
         </div>
       </div>
     </section>
