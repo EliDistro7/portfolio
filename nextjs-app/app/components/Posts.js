@@ -153,7 +153,7 @@ const Posts = ({
   subHeading,
 }) => (
   <div className="py-8 sm:py-8 lg:py-12">
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="container mx-auto px-2 sm:px-2 lg:px-8">
       {heading && (
         <h2 className={`${baskerville.variable} font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900`}>
           {heading}
