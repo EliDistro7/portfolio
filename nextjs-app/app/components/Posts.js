@@ -6,6 +6,12 @@ import { Post as PostType } from "@/sanity.types";
 import DateComponent from "@/app/components/Date";
 import OnBoarding from "@/app/components/Onboarding";
 
+import imageUrlBuilder from '@sanity/image-url';
+import { client } from '@/sanity/lib/client'; // adjust path to your sanity client
+
+const builder = imageUrlBuilder(client);
+const urlFor = (source) => builder.image(source);
+
 import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
 
 // Define your custom fonts
@@ -22,6 +28,7 @@ const sourceSans = Source_Sans_Pro({
 });
 
 const Post = ({ post }) => {
+  console.log("post", post)
   const { 
     _id, 
     title, 
@@ -88,7 +95,7 @@ const Post = ({ post }) => {
             ) : coverImage?.asset ? (
               // Regular image thumbnail
               <img
-                src={coverImage.asset.url}
+                 src={urlFor(coverImage).width(800).url()}
                 alt={coverImage.alt || ''}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
