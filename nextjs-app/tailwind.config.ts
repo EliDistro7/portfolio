@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
+import plugin from 'tailwindcss/plugin';
 
 export default {
   content: ["./app/**/*.{ts,tsx}", "./sanity/**/*.{ts,tsx}"],
@@ -10,97 +11,138 @@ export default {
     },
     extend: {
       boxShadow: {
-        layer: "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
+        layer: "0 35px 60px -15px rgba(0, 0, 0, 0.1)",
+        soft: "0 4px 24px rgba(0, 0, 0, 0.08)",
+        glow: "0 0 15px rgba(245, 158, 11, 0.3)",
       },
       colors: {
-        black: "#0d0e12",
-        white: "#fff",
-        cyan: {
-          50: "#e7fefe",
-          100: "#c5fcfc",
-          200: "#96f8f8",
-          300: "#62efef",
-          400: "#18e2e2",
-          500: "#04b8be",
-          600: "#037782",
-          700: "#024950",
-          800: "#042f34",
-          900: "#072227",
-          950: "#0d181c",
+        black: "#1a1a1a",
+        white: "#fefefe",
+        // Vibrant orange primary palette
+        primary: {
+          50: "#fff7ed",
+          100: "#ffefd5",
+          200: "#ffdfaa",
+          300: "#ffcf80",
+          400: "#ffbf55",
+          500: "#f59e0b", // Main brand orange - energetic yet professional
+          600: "#d97706",
+          700: "#b45309",
+          800: "#92400e",
+          900: "#78350f",
+          950: "#451a03",
         },
-        gray: {
-          50: "#f6f6f8",
-          100: "#eeeef1",
-          200: "#e3e4e8",
-          300: "#bbbdc9",
-          400: "#9499ad",
-          500: "#727892",
-          600: "#515870",
-          700: "#383d51",
-          800: "#252837",
-          900: "#1b1d27",
-          950: "#13141b",
+        // Complementary blue (for contrast)
+        secondary: {
+          50: "#eff6ff",
+          100: "#dbeafe",
+          200: "#bfdbfe",
+          300: "#93c5fd",
+          400: "#60a5fa",
+          500: "#3b82f6", // Trustworthy blue
+          600: "#2563eb",
+          700: "#1d4ed8",
+          800: "#1e40af",
+          900: "#1e3a8a",
+          950: "#172554",
         },
-        red: {
-          50: "#fff6f5",
-          100: "#ffe7e5",
-          200: "#ffdedc",
-          300: "#fdada5",
-          400: "#f77769",
-          500: "#ef4434",
-          600: "#cc2819",
-          700: "#8b2018",
-          800: "#4d1714",
-          900: "#321615",
-          950: "#1e1011",
+        // Earthy warm neutrals
+        neutral: {
+          50: "#fafaf9",
+          100: "#f5f5f4",
+          200: "#e7e5e4",
+          300: "#d6d3d1",
+          400: "#a8a29e",
+          500: "#78716c",
+          600: "#57534e",
+          700: "#44403c",
+          800: "#292524",
+          900: "#1c1917",
         },
-        orange: {
-          50: "#fcf1e8",
-          100: "#f9e3d2",
-          200: "#f4c7a6",
-          300: "#efab7a",
-          400: "#ea8f4e",
-          500: "#e57322",
-          600: "#ba5f1e",
-          700: "#8f4b1b",
-          800: "#653818",
-          900: "#3a2415",
-          950: "#251a13",
+        // Success/error states
+        success: {
+          50: "#f0fdf4",
+          100: "#dcfce7",
+          200: "#bbf7d0",
+          300: "#86efac",
+          400: "#4ade80",
+          500: "#22c55e",
+          600: "#16a34a",
+          700: "#15803d",
+          800: "#166534",
+          900: "#14532d",
         },
-        yellow: {
-          50: "#fefae1",
-          100: "#fcf3bb",
-          200: "#f9e994",
-          300: "#f7d455",
-          400: "#f9bc15",
-          500: "#d28a04",
-          600: "#965908",
-          700: "#653a0b",
-          800: "#3b220c",
-          900: "#271a11",
-          950: "#181410",
+        error: {
+          50: "#fef2f2",
+          100: "#fee2e2",
+          200: "#fecaca",
+          300: "#fca5a5",
+          400: "#f87171",
+          500: "#ef4444",
+          600: "#dc2626",
+          700: "#b91c1c",
+          800: "#991b1b",
+          900: "#7f1d1d",
         },
-        green: {
-          50: "#e7f9ed",
-          100: "#d0f4dc",
-          200: "#a1eaba",
-          300: "#72e097",
-          400: "#43d675",
-          500: "#3ab564",
-          600: "#329454",
-          700: "#297343",
-          800: "#215233",
-          900: "#183122",
-          950: "#14211a",
+        // Accent colors
+        accent: {
+          gold: "#facc15", // For highlights
+          amber: "#fbbf24", // Warm accent
+          teal: "#0d9488", // Cool balance
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)"],
+        sans: ["var(--font-inter)", "sans-serif"],
+        heading: ["var(--font-bebas-neue)", "sans-serif"], // Tall, bold
+        display: ["var(--font-archivo-black)", "sans-serif"], // Ultra-bold
+      },
+      fontSize: {
+        display: ["4.5rem", { lineHeight: "1", fontWeight: "900" }],
+        "heading-1": ["3rem", { lineHeight: "1.1", fontWeight: "800" }],
+        "heading-2": ["2.25rem", { lineHeight: "1.2", fontWeight: "700" }],
+      },
+      keyframes: {
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(245, 158, 11, 0.7)" },
+          "50%": { boxShadow: "0 0 15px 5px rgba(245, 158, 11, 0.4)" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+      },
+      animation: {
+        "pulse-glow": "pulse-glow 2s infinite",
+        "fade-in": "fade-in 0.5s ease-out",
+        "float": "float 3s ease-in-out infinite",
       },
     },
   },
   future: {
     hoverOnlyWhenSupported: true,
   },
-  plugins: [typography],
+  plugins: [
+    typography,
+    plugin(function({ addUtilities }) {
+      addUtilities({
+        '.text-balance': {
+          'text-wrap': 'balance',
+        },
+        '.scroll-smooth': {
+          'scroll-behavior': 'smooth',
+        },
+        '.font-outline': {
+          '-webkit-text-stroke': '1px currentColor',
+          'text-stroke': '1px currentColor',
+        },
+        '.bg-radial-orange': {
+          'background-image': 'radial-gradient(circle, rgba(245,158,11,0.1) 0%, rgba(255,255,255,0) 70%)',
+        },
+      });
+    }),
+  ],
 } satisfies Config;

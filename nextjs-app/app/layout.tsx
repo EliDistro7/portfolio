@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { draftMode } from "next/headers";
 import { VisualEditing, toPlainText } from "next-sanity";
 import { Toaster } from "sonner";
+import { LanguageProvider } from '@/context/LanguageContext';
 
 import DraftModeToast from "@/app/components/DraftModeToast";
 import Footer from "@/app/components/Footer";
@@ -67,7 +68,8 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} bg-white text-black`}>
       <body>
-        <section className="min-h-screen pt-24">
+        <LanguageProvider>
+        <section className="min-h-screen ">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           <Toaster />
           {isDraftMode && (
@@ -83,7 +85,9 @@ export default async function RootLayout({
           <main className="">{children}</main>
           <Footer />
         </section>
+       
         <SpeedInsights />
+        </LanguageProvider>
       </body>
     </html>
   );
