@@ -29,7 +29,6 @@ const sourceSans = Source_Sans_Pro({
 });
 
 const Post = ({ post }) => {
- // console.log("post", post)
   const { 
     _id, 
     title, 
@@ -46,10 +45,10 @@ const Post = ({ post }) => {
   return (
     <article
       key={_id}
-      className="group relative flex flex-col gap-6 rounded-xl p-6 py-3 px-0 transition-all hover:bg-primary-50/50 hover:shadow-md"
+      className="group relative rounded-xl p-6 transition-all hover:bg-primary-50/50 hover:shadow-md border border-gray-200"
     >
       {/* Meta section with date, author, and translation badge */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+      <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className={`${sourceSans.variable} font-sans text-sm font-semibold text-primary-600`}>
           <DateComponent dateString={date} />
         </div>
@@ -61,61 +60,57 @@ const Post = ({ post }) => {
         )}
 
         {hasTranslation && (
-          <span className="rounded-full bg-primary-100 px-2 py-0.5 text-xs text-primary-800">
+          <span className="ml-auto rounded-full bg-primary-100 px-3 py-1 text-xs font-medium text-primary-800">
             Swahili Available
           </span>
         )}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-6">
         {/* Media section - only shown if media exists */}
         {(coverImage?.asset || video?.asset) && (
-          <div className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0 overflow-hidden rounded-lg relative aspect-video">
-            {mediaType === 'video' && video?.asset ? (
-              <>
-                {/* Video thumbnail with play button */}
-                <div className="h-full w-full bg-neutral-100 flex items-center justify-center">
-                  <video 
-                    className="h-full w-full object-cover"
-                    poster={coverImage?.asset?.url}
-                    muted
-                    loop
-                    playsInline
-                  >
-                    <source src={video.asset.url} type={`video/${video.asset.extension}`} />
-                  </video>
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    <div className="h-12 w-12 rounded-full bg-primary-500/90 flex items-center justify-center">
-                      <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M6.3 2.8L16 10l-9.7 7.2V2.8z" />
-                      </svg>
+          <div className="w-full lg:w-2/5 xl:w-1/3 flex-shrink-0">
+            <div className="overflow-hidden rounded-lg relative aspect-video">
+              {mediaType === 'video' && video?.asset ? (
+                <>
+                  {/* Video thumbnail with play button */}
+                  <div className="h-full w-full bg-neutral-100 flex items-center justify-center">
+                    <video 
+                      className="h-full w-full object-cover"
+                      poster={coverImage?.asset?.url}
+                      muted
+                      loop
+                      playsInline
+                    >
+                      <source src={video.asset.url} type={`video/${video.asset.extension}`} />
+                    </video>
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <div className="h-12 w-12 rounded-full bg-primary-500/90 flex items-center justify-center">
+                        <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6.3 2.8L16 10l-9.7 7.2V2.8z" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
+                </>
+              ) : coverImage?.asset ? (
+                // Regular image thumbnail
+                <div className="relative h-full w-full">
+                  <img
+                    src={urlFor(coverImage).width(800).quality(80).url()}
+                    alt={coverImage.alt || 'Blog post cover image'}
+                    className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
                 </div>
-              </>
-            ) : coverImage?.asset ? (
-              // Regular image thumbnail
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-neutral-100">
-              {/* Next.js Image Component (recommended) */}
-              <img
-                src={urlFor(coverImage).width(1200).quality(80).url()}
-                alt={coverImage.alt || 'Blog post cover image'}
-                fill
-                className="object-cover transition-all duration-500 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-                placeholder="blur"
-                blurDataURL={urlFor(coverImage).width(20).quality(20).blur(50).url()}
-              />
-              
-         
+              ) : null}
             </div>
-            ) : null}
           </div>
         )}
 
         {/* Content section */}
         <div className="flex-1">
-          <h3 className={`${baskerville.variable} font-serif text-2xl md:text-3xl font-bold leading-tight`}>
+          <h3 className={`${baskerville.variable} font-display text-2xl md:text-3xl font-bold leading-tight mb-3`}>
             <Link
               className="text-neutral-800 hover:text-primary-600 transition-colors"
               href={`/posts/${slug}`}
@@ -125,18 +120,19 @@ const Post = ({ post }) => {
           </h3>
 
           {excerpt && (
-            <p className={`${sourceSans.variable} font-sans mt-3 text-neutral-600 leading-relaxed line-clamp-3`}>
+            <p className={`${sourceSans.variable} font-sans text-neutral-600 leading-relaxed line-clamp-3 mb-4`}>
               {excerpt}
             </p>
           )}
 
-          <div className="mt-4">
+          <div className="mt-auto">
             <Link
               href={`/posts/${slug}`}
-              className={`${sourceSans.variable} font-sans inline-flex items-center font-semibold text-primary-600 hover:text-primary-800 transition-colors`}
+              className={`${sourceSans.variable} font-sans inline-flex items-center font-semibold text-primary-600 hover:text-primary-800 transition-colors group-hover:underline`}
+              aria-label={`Read more about ${title}`}
             >
               Read more
-              <svg className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
             </Link>
