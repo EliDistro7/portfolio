@@ -500,7 +500,7 @@ export default async function PostPage(props) {
             </div>
             
             {/* Back to All Posts Button */}
-            <Link href="/posts" 
+            <Link href="/" 
                   className={`${sourceSans.variable} font-sans inline-flex items-center px-6 py-3 border border-primary-500 text-primary-600 bg-white rounded-lg hover:bg-primary-50 transition-colors font-medium`}>
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
