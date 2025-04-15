@@ -23,6 +23,7 @@ const builder = imageUrlBuilder(client);
 const urlFor = (source) => builder.image(source);
 
 const Post = ({ post }) => {
+  console.log('post', post)
   const { 
     _id, 
     title,
@@ -73,7 +74,7 @@ const Post = ({ post }) => {
           {coverImage?.asset || featuredMedia?.image?.asset ? (
             <div className="relative h-full w-full">
               <img
-                src={urlFor(coverImage || featuredMedia.image).width(1200).height(675).quality(90).url()}
+                src={urlFor(coverImage || featuredMedia.image).width(1200).height(1042).quality(90).url()}
                 alt={(coverImage?.alt || featuredMedia?.image?.alt || `Cover image for ${title}`)}
                 className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
                 loading="lazy"
