@@ -1,4 +1,4 @@
-import {DocumentTextIcon} from '@sanity/icons'
+import {DocumentTextIcon, ImageIcon, PlayIcon,   PlayIcon as SpeakerLoudIcon} from '@sanity/icons'
 import {format, parseISO} from 'date-fns'
 import {defineField, defineType} from 'sanity'
 
@@ -61,75 +61,259 @@ export const post = defineType({
       rows: 3,
     }),
 
-    // Media Type (choose between image, video, or audio)
+    // Featured Media Section
     defineField({
-      name: 'mediaType',
-      title: 'Media Type',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Image', value: 'image'},
-          {title: 'Video', value: 'video'},
-          {title: 'Audio', value: 'audio'},
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'image',
+      name: 'featuredMedia',
+      title: 'Featured Media',
+      type: 'object',
+      description: 'The main media displayed prominently for this post',
+      fields: [
+        defineField({
+          name: 'mediaType',
+          title: 'Media Type',
+          type: 'string',
+          options: {
+            list: [
+              {title: 'Image', value: 'image'},
+              {title: 'Video', value: 'video'},
+              {title: 'Audio', value: 'audio'},
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'image',
+        }),
+        defineField({
+          name: 'image',
+          title: 'Featured Image',
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative text',
+              description: 'Important for SEO and accessibility',
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            },
+          ],
+          hidden: ({parent}) => parent?.mediaType !== 'image',
+        }),
+        defineField({
+          name: 'video',
+          title: 'Video',
+          type: 'object',
+          hidden: ({parent}) => parent?.mediaType !== 'video',
+          fields: [
+            {
+              name: 'file',
+              title: 'Video File',
+              type: 'file',
+              options: {
+                accept: 'video/*',
+              },
+            },
+            {
+              name: 'externalUrl',
+              title: 'or External URL (YouTube, Vimeo, etc.)',
+              type: 'url',
+              description: 'Link to YouTube, Vimeo, or other video platforms',
+            },
+            {
+              name: 'poster',
+              title: 'Video Poster Image',
+              type: 'image',
+              description: 'Image shown before video plays',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            },
+          ],
+          validation: (rule) => 
+            rule.custom((value) => {
+              // Either file or externalUrl must be provided
+              if (!value?.file && !value?.externalUrl) {
+                return 'Either a video file or external URL is required'
+              }
+              return true
+            }),
+        }),
+        defineField({
+          name: 'audio',
+          title: 'Audio',
+          type: 'object',
+          hidden: ({parent}) => parent?.mediaType !== 'audio',
+          fields: [
+            {
+              name: 'file',
+              title: 'Audio File',
+              type: 'file',
+              options: {
+                accept: 'audio/*',
+              },
+            },
+            {
+              name: 'externalUrl',
+              title: 'or External URL (SoundCloud, etc.)',
+              type: 'url',
+              description: 'Link to audio hosting platforms',
+            },
+            {
+              name: 'coverImage',
+              title: 'Cover Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            },
+          ],
+          validation: (rule) => 
+            rule.custom((value) => {
+              if (!value?.file && !value?.externalUrl) {
+                return 'Either an audio file or external URL is required'
+              }
+              return true
+            }),
+        }),
+      ],
     }),
 
-    // Conditional media fields
-    defineField({
-      name: 'coverImage',
-      title: 'Cover Image',
-      type: 'image',
-      options: {
-        hotspot: true,
+    // Gallery for multiple images
+   // Gallery for multiple images
+  defineField({
+    name: 'gallery',
+    title: 'Image Gallery',
+    description: 'Add multiple images to create a gallery for this post',
+    type: 'array',
+    of: [
+      {
+        type: 'object',
+        name: 'galleryImage',
+        title: 'Gallery Image',
+        fields: [
+          {
+            name: 'image',
+            type: 'image',
+            title: 'Image',
+            options: {
+              hotspot: true,
+            },
+            validation: (rule) => rule.required(),
+          },
+          {
+            name: 'alt',
+            type: 'string',
+            title: 'Alternative text',
+            description: 'Important for SEO and accessibility',
+          },
+          {
+            name: 'caption',
+            type: 'string',
+            title: 'Caption',
+          },
+        ],
+        preview: {
+          select: {
+            image: 'image',
+            caption: 'caption',
+          },
+          prepare(selection) {
+            const {image, caption} = selection
+            return {
+              title: caption || 'Image',
+              media: image || ImageIcon,
+            }
+          },
+        },
       },
-      fields: [
+    ],
+  }),
+
+    // Additional videos section
+    defineField({
+      name: 'additionalVideos',
+      title: 'Additional Videos',
+      description: 'Add supplementary videos to this post',
+      type: 'array',
+      of: [
         {
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-          description: 'Important for SEO and accessibility',
+          type: 'object',
+          name: 'additionalVideo',
+          title: 'Video',
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Video Title',
+            },
+            {
+              name: 'file',
+              title: 'Video File',
+              type: 'file',
+              options: {
+                accept: 'video/*',
+              },
+            },
+            {
+              name: 'externalUrl',
+              title: 'or External URL (YouTube, Vimeo, etc.)',
+              type: 'url',
+              description: 'Link to YouTube, Vimeo, or other video platforms',
+            },
+            {
+              name: 'poster',
+              title: 'Video Poster Image',
+              type: 'image',
+              description: 'Image shown before video plays',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'description',
+              type: 'text',
+              title: 'Description',
+              rows: 2,
+            },
+          ],
+          validation: (rule) => 
+            rule.custom((value: {file?: any; externalUrl?: string} | undefined) => {
+              // Either file or externalUrl must be provided
+              if (value && !value.file && !value.externalUrl) {
+                return 'Either a video file or external URL is required'
+              }
+              return true
+            }),
+          preview: {
+            select: {
+              title: 'title',
+              poster: 'poster',
+            },
+            prepare(selection) {
+              const {title, poster} = selection
+              return {
+                title: title || 'Video',
+                media: poster ? poster : PlayIcon,
+              }
+            },
+          },
         },
       ],
-      hidden: ({document}) => document?.mediaType !== 'image',
-      validation: (rule) => rule.custom((value, context) => {
-        if (context.document?.mediaType === 'image' && !value) {
-          return 'Cover image is required when media type is image'
-        }
-        return true
-      }),
-    }),
-    defineField({
-      name: 'video',
-      title: 'Video',
-      type: 'file',
-      options: {
-        accept: 'video/*',
-      },
-      hidden: ({document}) => document?.mediaType !== 'video',
-      validation: (rule) => rule.custom((value, context) => {
-        if (context.document?.mediaType === 'video' && !value) {
-          return 'Video file is required when media type is video'
-        }
-        return true
-      }),
-    }),
-    defineField({
-      name: 'audio',
-      title: 'Audio',
-      type: 'file',
-      options: {
-        accept: 'audio/*',
-      },
-      hidden: ({document}) => document?.mediaType !== 'audio',
-      validation: (rule) => rule.custom((value, context) => {
-        if (context.document?.mediaType === 'audio' && !value) {
-          return 'Audio file is required when media type is audio'
-        }
-        return true
-      }),
     }),
 
     // Post date
@@ -163,10 +347,10 @@ export const post = defineType({
     select: {
       title: 'title',
       titleSw: 'titleSw',
-      mediaType: 'mediaType',
-      coverImage: 'coverImage',
-      video: 'video',
-      audio: 'audio',
+      mediaType: 'featuredMedia.mediaType',
+      featuredImage: 'featuredMedia.image',
+      featuredVideo: 'featuredMedia.video',
+      featuredAudio: 'featuredMedia.audio',
       authorFirstName: 'author.firstName',
       authorLastName: 'author.lastName',
       date: 'date',
@@ -177,9 +361,9 @@ export const post = defineType({
         title,
         titleSw,
         mediaType,
-        coverImage,
-        video,
-        audio,
+        featuredImage,
+        featuredVideo,
+        featuredAudio,
         authorFirstName,
         authorLastName,
         date,
@@ -189,11 +373,11 @@ export const post = defineType({
       // Determine media icon based on type
       let media
       if (mediaType === 'image') {
-        media = coverImage
+        media = featuredImage
       } else if (mediaType === 'video') {
-        media = {_type: 'image', icon: DocumentTextIcon}
+        media = featuredVideo?.poster || PlayIcon
       } else if (mediaType === 'audio') {
-        media = {_type: 'image', icon: DocumentTextIcon}
+        media = featuredAudio?.coverImage || SpeakerLoudIcon
       }
 
       // Build subtitle with translation indicator
