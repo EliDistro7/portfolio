@@ -1,9 +1,11 @@
+// Post.jsx - Server component
 import { Play, Calendar, User, Languages, Music, Film, Image } from "lucide-react";
 import { client } from '@/sanity/lib/client';
 import Link from "next/link";
 import DateComponent from "@/app/components/Date";
-import imageUrlBuilder from '@sanity/image-url';
+
 import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
+import LanguageToggle from './LanguageToggle'; // Import the client component
 
 // Define your custom fonts
 const baskerville = Libre_Baskerville({
@@ -19,11 +21,12 @@ const sourceSans = Source_Sans_Pro({
 });
 
 // Set up image builder
+import imageUrlBuilder from '@sanity/image-url';
 const builder = imageUrlBuilder(client);
 const urlFor = (source) => builder.image(source);
 
-const Post = ({ post }) => {
-  console.log('post', post)
+const Post = ({ post, initialLanguage = 'en' }) => {
+  console.log('post', post);
   const { 
     _id, 
     title,
@@ -61,6 +64,29 @@ const Post = ({ post }) => {
             <span className="ml-1 font-bold text-white">{gallery.length}</span>
           </div> : null;
     }
+  };
+
+  // Create separate English and Swahili versions
+  const englishContent = {
+    title: title,
+    excerpt: excerpt,
+    readMore: "Read More",
+    swahiliAvailable: "Swahili Available",
+    videoLabel: "Video",
+    audioLabel: "Audio",
+    imageLabel: "Image",
+    imagesLabel: "Images"
+  };
+
+  const swahiliContent = {
+    title: titleSw || title,
+    excerpt: excerptSw || excerpt,
+    readMore: "Soma Zaidi",
+    swahiliAvailable: "Kiingereza Kinapatikana",
+    videoLabel: "Video",
+    audioLabel: "Sauti",
+    imageLabel: "Picha",
+    imagesLabel: "Picha"
   };
 
   return (
@@ -155,10 +181,23 @@ const Post = ({ post }) => {
               <span className="text-xs font-semibold">{additionalVideos.length} {additionalVideos.length === 1 ? 'Video' : 'Videos'}</span>
             </div>
           )}
+          
+          {/* Add client-side language toggle */}
+          {hasTranslation && (
+            <div className="absolute top-4 left-4">
+              <LanguageToggle 
+                hasTranslation={hasTranslation} 
+                postId={_id} 
+                englishContent={englishContent}
+                swahiliContent={swahiliContent}
+                initialLanguage={initialLanguage}
+              />
+            </div>
+          )}
         </div>
         
-        {/* Content Section with enhanced styling */}
-        <div className="p-6">
+        {/* Content Section - This will be hydrated by the client component */}
+        <div id={`post-content-${_id}`} className="p-6">
           {/* Title with improved typography */}
           <h3 className={`font-display text-2xl md:text-2xl font-bold leading-tight mb-3 text-gray-900 group-hover:text-primary-700 transition-colors duration-300 ${baskerville.variable}`}>
             {title}

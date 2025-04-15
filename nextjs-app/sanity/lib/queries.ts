@@ -6,11 +6,126 @@ const postFields = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
+  "titleSw": titleSw,
   "slug": slug.current,
   excerpt,
-  coverImage,
+  excerptSw,
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
+  hasTranslation,
+  
+  // Featured Media - handling all media types
+  featuredMedia {
+    mediaType,
+    image {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions
+        }
+      },
+      alt,
+      caption,
+      hotspot,
+      crop
+    },
+    video {
+      file {
+        asset->{
+          _id,
+          url,
+          extension,
+          mimeType
+        }
+      },
+      externalUrl,
+      poster {
+        asset->{
+          _id,
+          url
+        },
+        hotspot,
+        crop
+      },
+      caption
+    },
+    audio {
+      file {
+        asset->{
+          _id,
+          url,
+          extension,
+          mimeType
+        }
+      },
+      externalUrl,
+      coverImage {
+        asset->{
+          _id,
+          url
+        },
+        hotspot,
+        crop
+      },
+      caption
+    }
+  },
+  
+  // Gallery
+  gallery[] {
+    image {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions
+        }
+      },
+      hotspot,
+      crop
+    },
+    alt,
+    caption
+  },
+  
+  // Additional Videos
+  additionalVideos[] {
+    title,
+    file {
+      asset->{
+        _id,
+        url,
+        extension,
+        mimeType
+      }
+    },
+    externalUrl,
+    poster {
+      asset->{
+        _id,
+        url
+      },
+      hotspot,
+      crop
+    },
+    description
+  },
+  
+  // Using coverImage as a fallback for backward compatibility if needed
+  coverImage {
+    asset->{
+      _id,
+      url,
+      metadata {
+        dimensions
+      }
+    },
+    alt,
+    caption,
+    hotspot,
+    crop
+  }
 `;
 
 const linkReference = /* groq */ `
@@ -75,13 +190,23 @@ export const morePostsQuery = defineQuery(`
 
 export const postQuery = defineQuery(`
   *[_type == "post" && slug.current == $slug] [0] {
+    // Content blocks with expanded mark definitions
     content[]{
-    ...,
-    markDefs[]{
       ...,
-      ${linkReference}
-    }
-  },
+      markDefs[]{
+        ...,
+        ${linkReference}
+      }
+    },
+    // Optional Swahili content
+    contentSw[]{
+      ...,
+      markDefs[]{
+        ...,
+        ${linkReference}
+      }
+    },
+    // Include all standard post fields
     ${postFields}
   }
 `);
