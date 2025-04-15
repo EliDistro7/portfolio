@@ -1,4 +1,4 @@
-import {DocumentTextIcon, ImageIcon, PlayIcon,   PlayIcon as SpeakerLoudIcon} from '@sanity/icons'
+import {DocumentTextIcon, ImageIcon, PlayIcon, PlayIcon as SpeakerLoudIcon} from '@sanity/icons'
 import {format, parseISO} from 'date-fns'
 import {defineField, defineType} from 'sanity'
 
@@ -13,7 +13,7 @@ export const post = defineType({
       name: 'title',
       title: 'Title (English)',
       type: 'string',
-      validation: (rule) => rule.required(),
+      // Validation removed to make optional
     }),
     defineField({
       name: 'titleSw',
@@ -32,7 +32,7 @@ export const post = defineType({
         maxLength: 96,
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
-      validation: (rule) => rule.required(),
+      // Validation removed to make optional
     }),
 
     // Content in both languages
@@ -139,14 +139,7 @@ export const post = defineType({
               title: 'Caption',
             },
           ],
-          validation: (rule) => 
-            rule.custom((value) => {
-              // Either file or externalUrl must be provided
-              if (!value?.file && !value?.externalUrl) {
-                return 'Either a video file or external URL is required'
-              }
-              return true
-            }),
+          // Validation removed to make optional
         }),
         defineField({
           name: 'audio',
@@ -182,67 +175,60 @@ export const post = defineType({
               title: 'Caption',
             },
           ],
-          validation: (rule) => 
-            rule.custom((value) => {
-              if (!value?.file && !value?.externalUrl) {
-                return 'Either an audio file or external URL is required'
-              }
-              return true
-            }),
+          // Validation removed to make optional
         }),
       ],
     }),
 
     // Gallery for multiple images
-   // Gallery for multiple images
-  defineField({
-    name: 'gallery',
-    title: 'Image Gallery',
-    description: 'Add multiple images to create a gallery for this post',
-    type: 'array',
-    of: [
-      {
-        type: 'object',
-        name: 'galleryImage',
-        title: 'Gallery Image',
-        fields: [
-          {
-            name: 'image',
-            type: 'image',
-            title: 'Image',
-            options: {
-              hotspot: true,
+    defineField({
+      name: 'gallery',
+      title: 'Image Gallery',
+      description: 'Add multiple images to create a gallery for this post',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'galleryImage',
+          title: 'Gallery Image',
+          fields: [
+            {
+              name: 'image',
+              type: 'image',
+              title: 'Image',
+              options: {
+                hotspot: true,
+              },
+              // Already removed validation
             },
-            validation: (rule) => rule.required(),
-          },
-          {
-            name: 'alt',
-            type: 'string',
-            title: 'Alternative text',
-            description: 'Important for SEO and accessibility',
-          },
-          {
-            name: 'caption',
-            type: 'string',
-            title: 'Caption',
-          },
-        ],
-        preview: {
-          select: {
-            image: 'image',
-            caption: 'caption',
-          },
-          prepare(selection) {
-            const {image, caption} = selection
-            return {
-              title: caption || 'Image',
-              media: image || ImageIcon,
-            }
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative text',
+              description: 'Important for SEO and accessibility',
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            },
+          ],
+          preview: {
+            select: {
+              image: 'image',
+              caption: 'caption',
+            },
+            prepare(selection) {
+              const {image, caption} = selection
+              return {
+                title: caption || 'Image',
+                media: image || ImageIcon,
+              }
+            },
           },
         },
-      },
-    ],
-  }),
+      ],
+    }),
 
     // Additional videos section
     defineField({
@@ -291,14 +277,7 @@ export const post = defineType({
               rows: 2,
             },
           ],
-          validation: (rule) => 
-            rule.custom((value: {file?: any; externalUrl?: string} | undefined) => {
-              // Either file or externalUrl must be provided
-              if (value && !value.file && !value.externalUrl) {
-                return 'Either a video file or external URL is required'
-              }
-              return true
-            }),
+          // Already removed validation
           preview: {
             select: {
               title: 'title',
@@ -322,7 +301,7 @@ export const post = defineType({
       title: 'Date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
-      validation: (rule) => rule.required(),
+      // Validation removed to make optional
     }),
 
     // Author reference

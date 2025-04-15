@@ -1,17 +1,9 @@
-
-
 import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/live";
-import { morePostsQuery, allPostsQuery } from "@/sanity/lib/queries";
-
+import { client } from '@/sanity/lib/client';
+import imageUrlBuilder from '@sanity/image-url';
 import OnBoarding from "@/app/components/Onboarding";
 import Post from './Post';
-import { client } from '@/sanity/lib/client';
-
-import imageUrlBuilder from '@sanity/image-url';
-const builder = imageUrlBuilder(client);
-const urlFor = (source) => builder.image(source);
-
 import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
 
 // Define your custom fonts
@@ -24,35 +16,136 @@ const baskerville = Libre_Baskerville({
 const sourceSans = Source_Sans_Pro({
   subsets: ['latin'],
   weight: ['600', '700', '900'],
-  variable: '--font-source-sans'
+  variable: '--font-source-sans' 
 });
 
+// Set up image builder
+const builder = imageUrlBuilder(client);
+const urlFor = (source) => builder.image(source);
 
+// Updated queries with complete post fields
+export const morePostsQuery = `*[_type == "post"] [${0}...${5}] {
+  _id,
+  title,
+  titleSw,
+  slug,
+  excerpt,
+  excerptSw,
+  date,
+  content,
+  contentSw,
+  hasTranslation,
+  status,
+  author->{
+    firstName,
+    lastName,
+    picture
+  },
+  "coverImage": featuredMedia.image,
+  featuredMedia {
+    mediaType,
+    image,
+    video {
+      file {
+        asset->
+      },
+      externalUrl,
+      poster
+    },
+    audio {
+      file {
+        asset->
+      },
+      externalUrl,
+      coverImage
+    }
+  },
+  gallery[] {
+    image,
+    alt,
+    caption
+  },
+  additionalVideos[] {
+    title,
+    file {
+      asset->
+    },
+    externalUrl,
+    poster,
+    description
+  }
+}`;
 
-
-
-
+export const allPostsQuery = `*[_type == "post"] {
+  _id,
+  title,
+  titleSw,
+  slug,
+  excerpt,
+  excerptSw,
+  date,
+  content,
+  contentSw,
+  hasTranslation,
+  status,
+  author->{
+    firstName,
+    lastName,
+    picture
+  },
+  "coverImage": featuredMedia.image,
+  featuredMedia {
+    mediaType,
+    image,
+    video {
+      file {
+        asset->
+      },
+      externalUrl,
+      poster
+    },
+    audio {
+      file {
+        asset->
+      },
+      externalUrl,
+      coverImage
+    }
+  },
+  gallery[] {
+    image,
+    alt,
+    caption
+  },
+  additionalVideos[] {
+    title,
+    file {
+      asset->
+    },
+    externalUrl,
+    poster,
+    description
+  }
+}`;
 
 const Posts = ({
   children,
   heading,
   subHeading,
 }) => (
-  <div className="py-8 sm:py-10 lg:py-12">
-    <div className="container mx-auto px-4">
-      {heading && (
-        <h2 className={`${baskerville.variable} font-serif text-4xl sm:text-5xl font-bold text-neutral-900 mb-4`}>
-          {heading}
-        </h2>
-      )}
-      {subHeading && (
-        <p className={`${sourceSans.variable} font-sans text-xl text-neutral-600 max-w-3xl mb-10`}>
-          {subHeading}
-        </p>
-      )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {children}
-      </div>
+  <div className="container mx-auto px-4">
+    {heading && (
+      <h2 className={`text-3xl font-bold mb-2 ${baskerville.className}`}>
+        {heading}
+      </h2>
+    )}
+    {subHeading && (
+      <p className={`text-lg mb-6 ${sourceSans.className}`}>
+        {subHeading}
+      </p>
+    )}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {children}
     </div>
   </div>
 );
@@ -71,9 +164,9 @@ export const MorePosts = async ({
   }
 
   return (
-    <Posts heading={`Recent Posts (${data?.length})`}>
-      {data?.map((post) => <Post key={post._id} post={post} />)}
-    </Posts>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {data?.map((post) => <Post key={post._id} post={post} urlFor={urlFor} />)}
+    </div>
   );
 };
 
@@ -85,13 +178,12 @@ export const AllPosts = async () => {
   }
 
   return (
-    <Posts
-      heading="Updates/News"
-      subHeading="Latest information and updates from Us"
-    >
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {data.map((post) => (
-        <Post key={post._id} post={post} />
+        <Post key={post._id} post={post} urlFor={urlFor} />
       ))}
-    </Posts>
+    </div>
   );
 };
+
+export default Posts;
