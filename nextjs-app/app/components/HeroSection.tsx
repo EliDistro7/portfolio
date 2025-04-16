@@ -152,7 +152,7 @@ const Hero = () => {
   return (
     <section className="relative bg-white overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[700px] py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[700px] py-16 pt-4">
           {/* Left Content Area */}
           <div className="flex flex-col justify-center z-10 order-2 lg:order-1">
             <motion.div 
