@@ -3,11 +3,14 @@ import Link from "next/link";
 import Avatar from "@/app/components/Avatar";
 import DateComponent from "@/app/components/Date";
 import Breadcrumb from "@/app/components/Breadcrumb";
+import LocalizedTitle from "@/app/components/LocalizedTitle"
+import LocalizedExcerpt from "@/app/components/LocalizedExcerpt"
 
 export default function PostHeader({ post }) {
+    console.log('post', post)
   const breadcrumbItems = [
     { label: 'Home', href: '/' },
-    { label: 'Posts', href: '/posts' },
+    { label: 'Posts', href: '/' },
     { label: post.title, href: null, current: true }
   ];
 
@@ -21,12 +24,13 @@ export default function PostHeader({ post }) {
           {/* Title Section */}
           <div className="mb-8 md:mb-12">
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-4 md:mb-6">
-              {post.title}
+            <LocalizedTitle titleEn={post.title} titleSw={post.titleSw} />
             </h1>
             
             {post.excerpt && (
               <p className="font-sans text-lg md:text-xl text-gray-600 mt-3 md:mt-4">
-                {post.excerpt}
+                
+                <LocalizedExcerpt excerptEn={post.excerpt} excerptSw={post.excerptSw} />
               </p>
             )}
 
@@ -48,7 +52,7 @@ export default function PostHeader({ post }) {
                 </div>
               )}
 
-              {/* Translation Badge */}
+              {/* Translation Badge 
               {post.hasTranslation && (
                 <span className="inline-flex items-center rounded-full bg-primary-100 px-2 py-1 text-xs md:text-sm font-medium text-primary-800">
                   <svg className="mr-1 h-2 w-2 text-primary-600" fill="currentColor" viewBox="0 0 8 8">
@@ -56,7 +60,7 @@ export default function PostHeader({ post }) {
                   </svg>
                   Swahili Available
                 </span>
-              )}
+              )}*/}
             </div>
           </div>
         </div>
