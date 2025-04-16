@@ -3,8 +3,11 @@
 'use client';
 import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
 import { useLanguage } from '@/context/LanguageContext';
-import { TeamSection } from '@/app/components/TeamSection';
+import  TeamSection  from '@/app/components/TeamSection';
 import { StatsSection } from '@/app/components/StatsSection';
+
+
+
 
 // Load fonts
 const baskerville = Libre_Baskerville({
@@ -120,6 +123,39 @@ const aboutContent = {
 export default function AboutPage() {
   const { language } = useLanguage();
 
+  const teamMembers = [
+    {
+      name: "Salila Mohammed",
+      title: "Executive Director & Founder",
+      image: "/salila.jpeg" // replace with actual image path
+    },
+    {
+      name: "Isaac Mombury",
+      title: "Program Manager",
+      image: "/isaac.jpeg"
+    },
+    {
+      name: "Nassoro Mohammed",
+      title: "Monitoring and Evaluation Manager",
+      image: "/nassoro.jpeg"
+    },
+    {
+      name: "Fabian Kinyumbi",
+      title: "Program Officer",
+      image: "/fabian.jpeg"
+    },
+    {
+      name: "Sittiesha Mohammed",
+      title: "Program Treasurer",
+      image: "/sittiesha.jpeg"
+    },
+    {
+      name: "Kama Dubanza",
+      title: "Administrative manager",
+      image: "/kama.jpeg"
+    }
+  ];
+
   return (
     <div className={`${baskerville.variable} ${sourceSans.variable}`}>
       {/* Hero Section */}
@@ -221,7 +257,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <TeamSection language={language} />
+      <TeamSection teamMembers={teamMembers} />
 
       {/* Stats Section */}
       <StatsSection language={language} />
