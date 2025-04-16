@@ -27,7 +27,7 @@ const Gallery = ({ gallery }) => {
   
   return (
     <div className="my-12">
-      <h3 className={`${baskerville.variable} font-serif text-2xl font-bold mb-6`}>Gallery</h3>
+      <h3 className={`${baskerville.variable} font-serif text-2xl font-bold mb-6`}>Gallery of the day</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {gallery.map((item, index) => (
           <div key={index} className="overflow-hidden rounded-lg">

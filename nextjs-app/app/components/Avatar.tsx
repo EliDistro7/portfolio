@@ -34,18 +34,9 @@ export default function Avatar({ person, date }: Props) {
           />
         </div>
       ) : (
-        <div className="mr-1">By </div>
+        null
       )}
-      <div className="flex flex-col">
-        {firstName && lastName && (
-          <div className="font-bold">
-            {firstName} {lastName}
-          </div>
-        )}
-        <div className="text-gray-500 text-sm">
-          <DateComponent dateString={date} />
-        </div>
-      </div>
+     
     </div>
   );
 }
