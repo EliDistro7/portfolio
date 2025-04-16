@@ -175,8 +175,8 @@ const Footer = () => {
                   </Link>
                 </p>
                 <p>
-                  <Link href="tel:+255123456789" className="hover:text-primary-400 transition-colors">
-                    +255 123 456 789
+                  <Link href="tel:+255748908001 " className="hover:text-primary-400 transition-colors">
+                    +255 748 908 001 
                   </Link>
                 </p>
               </address>
