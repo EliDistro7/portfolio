@@ -175,7 +175,7 @@ export const AllPosts = async () => {
   
   if (!data || data.length === 0) {
     return (
-      <div className="py-16 text-center">
+      <div className="py-4 text-center">
         <h2 className={`${baskerville.variable} font-serif text-2xl text-gray-700`}>No posts found</h2>
         <p className="mt-4 text-gray-500">Check back soon for new content.</p>
       </div>
