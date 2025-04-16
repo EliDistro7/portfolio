@@ -220,7 +220,7 @@ const Hero = () => {
               {/* CTAs */}
               <motion.div 
                 variants={fadeInVariants}
-                className="flex flex-wrap gap-4 mb-10"
+                className="flex flex-wrap gap-4 mb-6"
               >
                 {/* Primary CTA Button */}
                 <Link href='/contact' className={`${sourceSans.variable} font-sans flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg transition-all duration-300 group shadow-md hover:shadow-lg`}>
@@ -261,7 +261,7 @@ const Hero = () => {
           </div>
 
           {/* Right Carousel Area */}
-          <div className="relative h-[400px] lg:h-auto rounded-xl overflow-hidden shadow-xl order-1 lg:order-2">
+          <div className="relative h-[400px] lg:h-auto mx-0 px-0 overflow-hidden shadow-xl order-1 lg:order-2">
             <Swiper
               modules={[Autoplay, Pagination, EffectFade]}
               effect="fade"
@@ -273,7 +273,7 @@ const Hero = () => {
                 bulletActiveClass: 'swiper-pagination-bullet-active bg-primary-500',
                 bulletClass: 'swiper-pagination-bullet bg-gray-300 w-2 h-2 mx-1'
               }}
-              className="h-full w-full rounded-xl"
+              className="h-full w-full "
               onSwiper={(swiper: SwiperType) => setSwiperInstance(swiper)}
               onSlideChange={(swiper: SwiperType) => setActiveIndex(swiper.realIndex)}
             >
@@ -286,7 +286,7 @@ const Hero = () => {
                       className="h-full w-full object-cover"
                     />
                     {/* Subtle gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
                     
                     {/* Caption for mobile view only */}
                     <div className="absolute bottom-0 left-0 right-0 p-4 lg:hidden">
