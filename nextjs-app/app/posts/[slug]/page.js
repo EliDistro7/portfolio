@@ -1,11 +1,9 @@
 // app/posts/[slug]/page.jsx
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { client } from '@/sanity/lib/client';
+
 import { sanityFetch } from "@/sanity/lib/live";
 import { postPagesSlugs, postQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
-import imageUrlBuilder from '@sanity/image-url';
 
 import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
 import PostHeader from "@/app/components/PostHeader";
@@ -13,9 +11,7 @@ import PostContent from "@/app/components/PostContent";
 import PostFooter from "@/app/components/PostFooter";
 import RelatedPosts from "@/app/components/RelatedPosts";
 
-// Initialize Sanity image builder
-const builder = imageUrlBuilder(client);
-export const urlFor = (source) => builder.image(source);
+
 
 // Font definitions
 const baskerville = Libre_Baskerville({
