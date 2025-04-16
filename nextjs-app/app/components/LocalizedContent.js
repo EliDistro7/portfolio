@@ -1,0 +1,22 @@
+// app/components/post/LocalizedContent.jsx
+'use client';
+
+import PortableText from "@/app/components/PortableText";
+import { useLanguage } from "@/context/LanguageContext";
+
+export default function LocalizedContent({ contentEn, contentSw }) {
+  const { language } = useLanguage();
+  
+  // Determine which content to display based on language
+  const contentToDisplay = language === "en" ? contentEn : contentSw;
+  
+  if (!contentToDisplay?.length) {
+    return null;
+  }
+  
+  return (
+    <div className="font-sans">
+      <PortableText value={contentToDisplay} />
+    </div>
+  );
+}

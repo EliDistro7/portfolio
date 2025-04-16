@@ -1,9 +1,7 @@
-
-
 // app/components/post/PostContent.jsx
-import PortableText from "@/app/components/PortableText";
 import FeaturedMedia from "@/app/components/FeaturedMedia";
 import Gallery from "@/app/components/Gallery";
+import LocalizedContent from "@/app/components/LocalizedContent";
 
 export default function PostContent({ post }) {
   return (
@@ -14,18 +12,14 @@ export default function PostContent({ post }) {
           <div className="mb-8 md:mb-12">
             <FeaturedMedia 
               mediaType={post.featuredMedia?.mediaType || 'image'} 
-              image={post.featuredMedia.image}
+              image={post.featuredMedia?.image}
               video={post.featuredMedia?.video}
               post={post}
             />
           </div>
           
-          {/* Content */}
-          {post.content?.length > 0 && (
-            <div className="font-sans">
-              <PortableText value={post.content} />
-            </div>
-          )}
+          {/* Content - Client Component */}
+          <LocalizedContent contentEn={post.content} contentSw={post.contentSw} />
           
           {/* Gallery */}
           {post.gallery && post.gallery.length > 0 && (
