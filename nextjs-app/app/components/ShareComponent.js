@@ -47,9 +47,37 @@ const Toast = ({ message, isVisible, type }) => {
   );
 };
 
+// Function to format slug for URL
+const formatSlug = (slug) => {
+  // Check if slug is already formatted
+  if (typeof slug !== 'string') {
+    return '';
+  }
+  
+  // Convert to lowercase
+  let formattedSlug = slug.toLowerCase();
+  
+  // Replace spaces with hyphens
+  formattedSlug = formattedSlug.replace(/\s+/g, '-');
+  
+  // Remove any special characters except hyphens
+  formattedSlug = formattedSlug.replace(/[^a-z0-9-]/g, '');
+  
+  // Remove multiple consecutive hyphens
+  formattedSlug = formattedSlug.replace(/-+/g, '-');
+  
+  // Remove leading and trailing hyphens
+  formattedSlug = formattedSlug.replace(/^-+|-+$/g, '');
+  
+  return formattedSlug;
+};
+
 const ShareComponent = ({ slug, title = "Check out this post!" }) => {
   const [toast, setToast] = useState({ visible: false, message: '', type: 'success' });
-  const eventUrl = `https://amkakijana.org/posts/${slug}`;
+  
+  // Format the slug for URL
+  const formattedSlug = formatSlug(slug);
+  const eventUrl = `https://amkakijana.org/posts/${formattedSlug}`;
 
   useEffect(() => {
     if (toast.visible) {
