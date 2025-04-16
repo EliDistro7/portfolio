@@ -568,25 +568,15 @@ export type SitemapDataResult = Array<{
   _updatedAt: string;
 }>;
 // Variable: allPostsQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "titleSw": titleSw,  "slug": slug.current,  excerpt,  excerptSw,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  hasTranslation,    // Featured Media - handling all media types  featuredMedia {    mediaType,    image {      asset->{        _id,        url,        metadata {          dimensions        }      },      alt,      caption,      hotspot,      crop    },    video {      file {        asset->{          _id,          url,          extension,          mimeType        }      },      externalUrl,      poster {        asset->{          _id,          url        },        hotspot,        crop      },      caption    },    audio {      file {        asset->{          _id,          url,          extension,          mimeType        }      },      externalUrl,      coverImage {        asset->{          _id,          url        },        hotspot,        crop      },      caption    }  },    // Gallery  gallery[] {    image {      asset->{        _id,        url,        metadata {          dimensions        }      },      hotspot,      crop    },    alt,    caption  },    // Additional Videos  additionalVideos[] {    title,    file {      asset->{        _id,        url,        extension,        mimeType      }    },    externalUrl,    poster {      asset->{        _id,        url      },      hotspot,      crop    },    description  },    // Using coverImage as a fallback for backward compatibility if needed  coverImage {    asset->{      _id,      url,      metadata {        dimensions      }    },    alt,    caption,    hotspot,    crop  }  }
 export type AllPostsQueryResult = Array<{
   _id: string;
   status: "draft" | "published";
   title: string;
+  titleSw: null;
   slug: string;
   excerpt: string | null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
+  excerptSw: null;
   date: string;
   author: {
     firstName: string;
@@ -604,27 +594,34 @@ export type AllPostsQueryResult = Array<{
       _type: "image";
     };
   } | null;
+  hasTranslation: null;
+  featuredMedia: null;
+  gallery: null;
+  additionalVideos: null;
+  coverImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: SanityImageDimensions | null;
+      } | null;
+    } | null;
+    alt: string | null;
+    caption: null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+  };
 }>;
 // Variable: morePostsQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
+// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "titleSw": titleSw,  "slug": slug.current,  excerpt,  excerptSw,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  hasTranslation,    // Featured Media - handling all media types  featuredMedia {    mediaType,    image {      asset->{        _id,        url,        metadata {          dimensions        }      },      alt,      caption,      hotspot,      crop    },    video {      file {        asset->{          _id,          url,          extension,          mimeType        }      },      externalUrl,      poster {        asset->{          _id,          url        },        hotspot,        crop      },      caption    },    audio {      file {        asset->{          _id,          url,          extension,          mimeType        }      },      externalUrl,      coverImage {        asset->{          _id,          url        },        hotspot,        crop      },      caption    }  },    // Gallery  gallery[] {    image {      asset->{        _id,        url,        metadata {          dimensions        }      },      hotspot,      crop    },    alt,    caption  },    // Additional Videos  additionalVideos[] {    title,    file {      asset->{        _id,        url,        extension,        mimeType      }    },    externalUrl,    poster {      asset->{        _id,        url      },      hotspot,      crop    },    description  },    // Using coverImage as a fallback for backward compatibility if needed  coverImage {    asset->{      _id,      url,      metadata {        dimensions      }    },    alt,    caption,    hotspot,    crop  }  }
 export type MorePostsQueryResult = Array<{
   _id: string;
   status: "draft" | "published";
   title: string;
+  titleSw: null;
   slug: string;
   excerpt: string | null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
+  excerptSw: null;
   date: string;
   author: {
     firstName: string;
@@ -642,9 +639,26 @@ export type MorePostsQueryResult = Array<{
       _type: "image";
     };
   } | null;
+  hasTranslation: null;
+  featuredMedia: null;
+  gallery: null;
+  additionalVideos: null;
+  coverImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: SanityImageDimensions | null;
+      } | null;
+    } | null;
+    alt: string | null;
+    caption: null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+  };
 }>;
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
+// Query: *[_type == "post" && slug.current == $slug] [0] {    // Content blocks with expanded mark definitions    content[]{      ...,      markDefs[]{        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    },    // Optional Swahili content    contentSw[]{      ...,      markDefs[]{        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    },    // Include all standard post fields      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "titleSw": titleSw,  "slug": slug.current,  excerpt,  excerptSw,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  hasTranslation,    // Featured Media - handling all media types  featuredMedia {    mediaType,    image {      asset->{        _id,        url,        metadata {          dimensions        }      },      alt,      caption,      hotspot,      crop    },    video {      file {        asset->{          _id,          url,          extension,          mimeType        }      },      externalUrl,      poster {        asset->{          _id,          url        },        hotspot,        crop      },      caption    },    audio {      file {        asset->{          _id,          url,          extension,          mimeType        }      },      externalUrl,      coverImage {        asset->{          _id,          url        },        hotspot,        crop      },      caption    }  },    // Gallery  gallery[] {    image {      asset->{        _id,        url,        metadata {          dimensions        }      },      hotspot,      crop    },    alt,    caption  },    // Additional Videos  additionalVideos[] {    title,    file {      asset->{        _id,        url,        extension,        mimeType      }    },    externalUrl,    poster {      asset->{        _id,        url      },      hotspot,      crop    },    description  },    // Using coverImage as a fallback for backward compatibility if needed  coverImage {    asset->{      _id,      url,      metadata {        dimensions      }    },    alt,    caption,    hotspot,    crop  }  }
 export type PostQueryResult = {
   content: Array<{
     children?: Array<{
@@ -668,23 +682,14 @@ export type PostQueryResult = {
     _type: "block";
     _key: string;
   }> | null;
+  contentSw: null;
   _id: string;
   status: "draft" | "published";
   title: string;
+  titleSw: null;
   slug: string;
   excerpt: string | null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
+  excerptSw: null;
   date: string;
   author: {
     firstName: string;
@@ -702,6 +707,23 @@ export type PostQueryResult = {
       _type: "image";
     };
   } | null;
+  hasTranslation: null;
+  featuredMedia: null;
+  gallery: null;
+  additionalVideos: null;
+  coverImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: SanityImageDimensions | null;
+      } | null;
+    } | null;
+    alt: string | null;
+    caption: null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+  };
 } | null;
 // Variable: postPagesSlugs
 // Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
@@ -721,9 +743,9 @@ declare module "@sanity/client" {
     "*[_type == \"settings\"][0]": SettingsQueryResult;
     "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => {\n        \n  link {\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n      }\n,\n      },\n      _type == \"infoSection\" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"page\" || _type == \"post\" && defined(slug.current)] | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt,\n  }\n": SitemapDataResult;
-    "\n  *[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": AllPostsQueryResult;
-    "\n  *[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": MorePostsQueryResult;
-    "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": PostQueryResult;
+    "\n  *[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"titleSw\": titleSw,\n  \"slug\": slug.current,\n  excerpt,\n  excerptSw,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n  hasTranslation,\n  \n  // Featured Media - handling all media types\n  featuredMedia {\n    mediaType,\n    image {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions\n        }\n      },\n      alt,\n      caption,\n      hotspot,\n      crop\n    },\n    video {\n      file {\n        asset->{\n          _id,\n          url,\n          extension,\n          mimeType\n        }\n      },\n      externalUrl,\n      poster {\n        asset->{\n          _id,\n          url\n        },\n        hotspot,\n        crop\n      },\n      caption\n    },\n    audio {\n      file {\n        asset->{\n          _id,\n          url,\n          extension,\n          mimeType\n        }\n      },\n      externalUrl,\n      coverImage {\n        asset->{\n          _id,\n          url\n        },\n        hotspot,\n        crop\n      },\n      caption\n    }\n  },\n  \n  // Gallery\n  gallery[] {\n    image {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions\n        }\n      },\n      hotspot,\n      crop\n    },\n    alt,\n    caption\n  },\n  \n  // Additional Videos\n  additionalVideos[] {\n    title,\n    file {\n      asset->{\n        _id,\n        url,\n        extension,\n        mimeType\n      }\n    },\n    externalUrl,\n    poster {\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    },\n    description\n  },\n  \n  // Using coverImage as a fallback for backward compatibility if needed\n  coverImage {\n    asset->{\n      _id,\n      url,\n      metadata {\n        dimensions\n      }\n    },\n    alt,\n    caption,\n    hotspot,\n    crop\n  }\n\n  }\n": AllPostsQueryResult;
+    "\n  *[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"titleSw\": titleSw,\n  \"slug\": slug.current,\n  excerpt,\n  excerptSw,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n  hasTranslation,\n  \n  // Featured Media - handling all media types\n  featuredMedia {\n    mediaType,\n    image {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions\n        }\n      },\n      alt,\n      caption,\n      hotspot,\n      crop\n    },\n    video {\n      file {\n        asset->{\n          _id,\n          url,\n          extension,\n          mimeType\n        }\n      },\n      externalUrl,\n      poster {\n        asset->{\n          _id,\n          url\n        },\n        hotspot,\n        crop\n      },\n      caption\n    },\n    audio {\n      file {\n        asset->{\n          _id,\n          url,\n          extension,\n          mimeType\n        }\n      },\n      externalUrl,\n      coverImage {\n        asset->{\n          _id,\n          url\n        },\n        hotspot,\n        crop\n      },\n      caption\n    }\n  },\n  \n  // Gallery\n  gallery[] {\n    image {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions\n        }\n      },\n      hotspot,\n      crop\n    },\n    alt,\n    caption\n  },\n  \n  // Additional Videos\n  additionalVideos[] {\n    title,\n    file {\n      asset->{\n        _id,\n        url,\n        extension,\n        mimeType\n      }\n    },\n    externalUrl,\n    poster {\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    },\n    description\n  },\n  \n  // Using coverImage as a fallback for backward compatibility if needed\n  coverImage {\n    asset->{\n      _id,\n      url,\n      metadata {\n        dimensions\n      }\n    },\n    alt,\n    caption,\n    hotspot,\n    crop\n  }\n\n  }\n": MorePostsQueryResult;
+    "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    // Content blocks with expanded mark definitions\n    content[]{\n      ...,\n      markDefs[]{\n        ...,\n        \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n      }\n    },\n    // Optional Swahili content\n    contentSw[]{\n      ...,\n      markDefs[]{\n        ...,\n        \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n      }\n    },\n    // Include all standard post fields\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"titleSw\": titleSw,\n  \"slug\": slug.current,\n  excerpt,\n  excerptSw,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n  hasTranslation,\n  \n  // Featured Media - handling all media types\n  featuredMedia {\n    mediaType,\n    image {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions\n        }\n      },\n      alt,\n      caption,\n      hotspot,\n      crop\n    },\n    video {\n      file {\n        asset->{\n          _id,\n          url,\n          extension,\n          mimeType\n        }\n      },\n      externalUrl,\n      poster {\n        asset->{\n          _id,\n          url\n        },\n        hotspot,\n        crop\n      },\n      caption\n    },\n    audio {\n      file {\n        asset->{\n          _id,\n          url,\n          extension,\n          mimeType\n        }\n      },\n      externalUrl,\n      coverImage {\n        asset->{\n          _id,\n          url\n        },\n        hotspot,\n        crop\n      },\n      caption\n    }\n  },\n  \n  // Gallery\n  gallery[] {\n    image {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions\n        }\n      },\n      hotspot,\n      crop\n    },\n    alt,\n    caption\n  },\n  \n  // Additional Videos\n  additionalVideos[] {\n    title,\n    file {\n      asset->{\n        _id,\n        url,\n        extension,\n        mimeType\n      }\n    },\n    externalUrl,\n    poster {\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    },\n    description\n  },\n  \n  // Using coverImage as a fallback for backward compatibility if needed\n  coverImage {\n    asset->{\n      _id,\n      url,\n      metadata {\n        dimensions\n      }\n    },\n    alt,\n    caption,\n    hotspot,\n    crop\n  }\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
   }

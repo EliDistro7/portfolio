@@ -1,16 +1,16 @@
 // app/components/post/PostFooter.jsx
 import Link from "next/link";
-import ShareButtons from "@/app/components/ShareButtons";
+import ShareComponent from "@/app/components/ShareComponent";
 
-export default function PostFooter({ shareUrls }) {
+export default function PostFooter({ slug, title }) {
   return (
     <div className="bg-gray-50 py-8 md:py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center">
-          {/* Share Buttons */}
-          <div className="mb-6 md:mb-0">
+          {/* Share Component */}
+          <div className="mb-6 md:mb-0 w-full md:w-auto">
             <p className="font-sans font-semibold text-gray-900 mb-3 text-center md:text-left">Share this post</p>
-            <ShareButtons shareUrls={shareUrls} />
+            <ShareComponent slug={slug} title={title} />
           </div>
           
           {/* Back to All Posts Button */}

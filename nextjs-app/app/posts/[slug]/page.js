@@ -77,7 +77,7 @@ export default async function PostPage(props) {
     <div className={`${baskerville.variable} ${sourceSans.variable}`}>
       <PostHeader post={post} />
       <PostContent post={post} />
-      <PostFooter shareUrls={shareUrls} />
+      <PostFooter shareUrls={shareUrls} title={post.title} slug={post.title} />
       <RelatedPosts postId={post._id} />
     </div>
   );
