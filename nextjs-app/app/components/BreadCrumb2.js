@@ -1,7 +1,7 @@
 // app/components/navigation/Breadcrumb.jsx
 import Link from "next/link"
 
-export default function Breadcrumb({ items, className = "" }) {
+export default function Breadcrumb2({ items, className = "" }) {
   return (
     <nav className={`flex ${className}`} aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-2 flex-wrap">

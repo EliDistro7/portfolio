@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Avatar from "@/app/components/Avatar";
 import DateComponent from "@/app/components/Date";
-import Breadcrumb from "./Breadcrumb";
+import Breadcrumb2 from "./BreadCrumb2";
 import LocalizedTitle from "@/app/components/LocalizedTitle"
 import LocalizedExcerpt from "@/app/components/LocalizedExcerpt"
 
@@ -19,7 +19,7 @@ export default function PostHeader({ post }) {
       <div className="container mx-auto px-4 py-8 md:py-16 lg:py-24">
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb */}
-          <Breadcrumb items={breadcrumbItems} className="mb-6 md:mb-8" />
+          <Breadcrumb2 items={breadcrumbItems} className="mb-6 md:mb-8" />
 
           {/* Title Section */}
           <div className="mb-8 md:mb-12">
