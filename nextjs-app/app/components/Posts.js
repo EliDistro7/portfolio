@@ -212,7 +212,7 @@ export const AllPosts = async () => {
         {/* Optional "View all" link if you have many posts */}
         {data.length > 6 && (
           <div className="mt-12 text-center">
-            <a 
+            <Link
               href="/all-stories" 
               className="inline-flex items-center px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors duration-300"
             >
@@ -220,7 +220,7 @@ export const AllPosts = async () => {
               <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </a>
+            </Link>
           </div>
         )}
       </div>
