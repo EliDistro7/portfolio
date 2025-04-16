@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Avatar from "@/app/components/Avatar";
 import DateComponent from "@/app/components/Date";
-import Breadcrumb from "@/app/components/Breadcrumb";
+import Breadcrumb from "./Breadcrumb";
 import LocalizedTitle from "@/app/components/LocalizedTitle"
 import LocalizedExcerpt from "@/app/components/LocalizedExcerpt"
 
