@@ -44,7 +44,7 @@ const Header = () => {
                 className="object-contain"
               />
             </div>
-            <span className="font-display text-xl font-bold text-primary-700 group-hover:text-primary-600 transition-colors">
+            <span className="font-display  text-xl font-bold text-primary-700 group-hover:text-primary-600 transition-colors">
               Amka Kijana
             </span>
             <span className="absolute inset-0 rounded-lg -z-10 opacity-0 bg-primary-50 group-hover:opacity-100 transition-opacity duration-300"></span>

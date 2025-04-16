@@ -6,6 +6,7 @@ import { Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 
 import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
+import Image from 'next/image';
 
 
 
@@ -114,33 +115,22 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16">
           {/* Brand column */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-10 w-10 rounded-full bg-primary-500 flex items-center justify-center">
-                <span className="font-display text-white text-xl">AK</span>
-              </div>
-              <span className="font-display text-2xl font-bold text-white">
-                Amka Kijana
-              </span>
+               {/* Logo */}
+               <Link href="/" className="flex items-center gap-2 group relative">
+            <div className="relative h-12 w-auto transition-transform duration-300 group-hover:scale-105">
+              <Image 
+                src="/logo.png" 
+                alt="Amka Kijana Logo" 
+                width={48} 
+                height={48}
+                className="object-contain rounded-full"
+              />
             </div>
-            <p className={`${sourceSans.variable} font-sans text-neutral-300 mb-6`}>
-              {footerContent.mission[language]}
-            </p>
-            <div className="flex gap-4">
-              {socialLinks.map((social, index) => (
-                <Link
-                  key={index}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-neutral-300 hover:text-primary-400 transition-colors"
-                  aria-label="Social media link"
-                >
-                  {social.icon}
-                </Link>
-              ))}
+            <div className="font-display  relative h-12 w-auto text-xl font-bold text-primary-700 group-hover:text-primary-600 transition-colors">
+              Amka Kijana
             </div>
-          </div>
+            <span className="absolute inset-0 rounded-lg -z-10 opacity-0 bg-primary-50 group-hover:opacity-100 transition-opacity duration-300"></span>
+          </Link>
 
           {/* Quick links */}
           <div>
