@@ -19,6 +19,10 @@ const navItems = {
     en: 'Blog',
     sw: 'Blog',
   },
+  privacy: {
+    en: 'Privacy',
+    sw: 'Faragha',
+  },
   contact: {
     en: 'Contact',
     sw: 'Mawasiliano',
