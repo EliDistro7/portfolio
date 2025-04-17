@@ -65,8 +65,8 @@ const contactContent = {
           sw: "Tupe Simu"
         },
         content: {
-          en: "+255 123 456 789",
-          sw: "+255 123 456 789"
+          en: "+255 748 908 001",
+          sw: "+255 748 908 001"
         }
       },
       {
