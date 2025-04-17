@@ -55,13 +55,13 @@ const Post = ({ post, initialLanguage = 'en' }) => {
 
   return (
     <Link href={`/posts/${slug.current}`}>
-      <article className="group h-full overflow-hidden rounded-xl bg-white transition-all duration-300 hover:shadow-lg">
-        {/* Media Container - Now Larger */}
-        <div className="relative aspect-[16/9] w-full overflow-hidden">
+      <article className="group h-full overflow-hidden bg-white transition-all duration-300 hover:shadow-lg">
+        {/* Media Container - Full Width */}
+        <div className="relative aspect-[16/12] w-screen overflow-hidden">
           {coverImage?.asset || featuredMedia?.image?.asset ? (
             <div className="relative h-full w-full">
               <img
-                src={urlFor(coverImage || featuredMedia.image).width(1000).height(562).quality(85).url()}
+                src={urlFor(coverImage || featuredMedia.image).width(1920).height(1150).quality(85).url()}
                 alt={(coverImage?.alt || featuredMedia?.image?.alt || `Cover image for ${title}`)}
                 className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
                 loading="lazy"
@@ -86,7 +86,7 @@ const Post = ({ post, initialLanguage = 'en' }) => {
             <div className="relative h-full w-full bg-gray-800 flex items-center justify-center">
               {featuredMedia.video.poster ? (
                 <img
-                  src={urlFor(featuredMedia.video.poster).width(1000).height(562).quality(85).url()}
+                  src={urlFor(featuredMedia.video.poster).width(1920).height(1150).quality(85).url()}
                   alt={`Video poster for ${title}`}
                   className="h-full w-full object-cover opacity-90"
                   loading="lazy"
@@ -118,7 +118,7 @@ const Post = ({ post, initialLanguage = 'en' }) => {
         </div>
         
         {/* Bottom content section - with date and language toggle moved here */}
-        <div className="p-4">
+        <div className="p-4 max-w-screen-xl mx-auto">
           {/* Meta information row */}
           <div className="flex items-center justify-between mb-3">
             {date && (
