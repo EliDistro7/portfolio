@@ -202,9 +202,7 @@ const Footer = () => {
               {language === 'en' ? 'Privacy Policy' : 'Sera ya Faragha'}
             </Link>
             
-            <Link href="/terms" className={`${sourceSans.variable} font-sans text-neutral-300 hover:text-primary-400 transition-colors text-sm`}>
-              {language === 'en' ? 'Terms of Service' : 'Sheria za Matumizi'}
-            </Link>
+            
           </div>
         </div>
       </div>
