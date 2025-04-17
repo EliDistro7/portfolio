@@ -81,12 +81,12 @@ const Post = ({ post, initialLanguage = 'en' }) => {
         
          {/* Title with gradient shadow background */}
 {/* Title with soft gradient shadow background */}
-<div className="absolute bottom-0 left-0 right-0 p-8 text-center">
+<div className="absolute bottom-0 left-0 right-0 p-8 py-4 text-center">
   <h3 
     className={`${baskerville.variable} font-serif text-xl md:text-3xl font-bold text-white leading-tight`}
     style={{
       textShadow: "0 2px 4px rgba(0,0,0,0.8), 0 4px 12px rgba(0,0,0,0.6)",
-      background: "linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0) 100%)",
+
       padding: "2rem 1.5rem 1.5rem",
       borderRadius: "1.5rem 1.5rem 0 0"
     }}
