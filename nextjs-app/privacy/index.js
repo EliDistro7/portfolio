@@ -421,9 +421,9 @@ export const privacyContent = {
           "Ikiwa una maswali yoyote, wasiwasi, au maombi kuhusu Sera hii ya Faragha au desturi zetu za data, tafadhali wasiliana nasi kupitia:",
           "**AMKA Kijana**",
           "Afisa wa Faragha",
-          "[Anwani ya Kimwili]",
-          "Barua pepe: privacy@amkakijana.org",
-          "Simu: [Namba ya Simu]"
+          "Dar es Salaam, Tanzania",
+          "Barua pepe: info@amkakijana.org",
+          "Simu: +255 748 908 001 "
         ]
       },
       governingLaw: {
