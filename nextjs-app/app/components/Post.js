@@ -56,66 +56,84 @@ const Post = ({ post, initialLanguage = 'en' }) => {
   return (
     <Link href={`/posts/${slug.current}`}>
       <article className="group h-full overflow-hidden bg-white transition-all duration-300 hover:shadow-lg">
-        {/* Media Container - Full Width */}
-        <div className="relative aspect-[16/12] w-screen overflow-hidden">
-          {coverImage?.asset || featuredMedia?.image?.asset ? (
-            <div className="relative h-full w-full">
-              <img
-                src={urlFor(coverImage || featuredMedia.image).width(1920).height(1150).quality(85).url()}
-                alt={(coverImage?.alt || featuredMedia?.image?.alt || `Cover image for ${title}`)}
-                className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              
-              {/* Media type indicator */}
-              {mediaType && mediaType !== "image" && (
-                <div className="absolute top-4 right-4 rounded-full bg-primary-600/90 p-2">
-                  {renderMediaTypeIcon()}
-                </div>
-              )}
-              
-              {/* Title centered at the bottom of image */}
-              <div className="absolute bottom-0 left-0 right-0 p-5 text-center">
-                <h3 className={`${baskerville.variable} font-serif text-xl md:text-2xl font-bold text-white leading-tight drop-shadow-md`}>
-                  {title}
-                </h3>
-              </div>
-            </div>
-          ) : featuredMedia?.video ? (
-            <div className="relative h-full w-full bg-gray-800 flex items-center justify-center">
-              {featuredMedia.video.poster ? (
-                <img
-                  src={urlFor(featuredMedia.video.poster).width(1920).height(1150).quality(85).url()}
-                  alt={`Video poster for ${title}`}
-                  className="h-full w-full object-cover opacity-90"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-900 to-primary-700"></div>
-              )}
-              
-              <div className="absolute inset-0 bg-black/30"></div>
-              
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="rounded-full bg-primary-600/90 p-3 mb-4">
-                  <Play className="h-8 w-8 text-white" fill="white" />
-                </div>
-                
-                <h3 className={`${baskerville.variable} font-serif text-center text-xl md:text-2xl font-bold text-white px-5 leading-tight drop-shadow-md`}>
-                  {title}
-                </h3>
-              </div>
-            </div>
-          ) : (
-            // Fallback if no media
-            <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-primary-100 to-primary-200 p-6">
-              <h3 className={`${baskerville.variable} font-serif text-center text-xl md:text-2xl font-bold text-primary-900`}>
-                {title}
-              </h3>
-            </div>
-          )}
+        {/* Media Container - Full Width and Taller */}
+<div className="relative aspect-[16/14] w-screen overflow-hidden">
+  {coverImage?.asset || featuredMedia?.image?.asset ? (
+    <div className="relative h-full w-full">
+      <img
+        src={urlFor(coverImage || featuredMedia.image).width(1920).height(1450).quality(85).url()}
+        alt={(coverImage?.alt || featuredMedia?.image?.alt || `Cover image for ${title}`)}
+        className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+      {/* Enhanced gradient for better title visibility */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      
+      {/* Media type indicator */}
+      {mediaType && mediaType !== "image" && (
+        <div className="absolute top-4 right-4 rounded-full bg-primary-600/90 p-2">
+          {renderMediaTypeIcon()}
         </div>
+      )}
+      
+      {/* Title with improved visibility and padding */}
+      
+        
+         {/* Title with gradient shadow background */}
+{/* Title with soft gradient shadow background */}
+<div className="absolute bottom-0 left-0 right-0 p-8 text-center">
+  <h3 
+    className={`${baskerville.variable} font-serif text-xl md:text-3xl font-bold text-white leading-tight`}
+    style={{
+      textShadow: "0 2px 4px rgba(0,0,0,0.8), 0 4px 12px rgba(0,0,0,0.6)",
+      background: "linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0) 100%)",
+      padding: "2rem 1.5rem 1.5rem",
+      borderRadius: "1.5rem 1.5rem 0 0"
+    }}
+  >
+    {title}
+  </h3>
+</div>
+        
+      </div>
+   
+  ) : featuredMedia?.video ? (
+    <div className="relative h-full w-full bg-gray-800 flex items-center justify-center">
+      {featuredMedia.video.poster ? (
+        <img
+          src={urlFor(featuredMedia.video.poster).width(1920).height(1450).quality(85).url()}
+          alt={`Video poster for ${title}`}
+          className="h-full w-full object-cover opacity-90"
+          loading="lazy"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-900 to-primary-700"></div>
+      )}
+      
+      <div className="absolute inset-0 bg-black/40"></div>
+      
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="rounded-full bg-primary-600/90 p-3 mb-4">
+          <Play className="h-8 w-8 text-white" fill="white" />
+        </div>
+        
+        {/* Enhanced title container for videos */}
+        <div className="px-6 py-3 rounded-lg bg-black/40 backdrop-blur-sm">
+          <h3 className={`${baskerville.variable} font-serif text-center text-xl md:text-3xl font-bold text-white leading-tight drop-shadow-lg`}>
+            {title}
+          </h3>
+        </div>
+      </div>
+    </div>
+  ) : (
+    // Fallback if no media
+    <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-primary-100 to-primary-200 p-6">
+      <h3 className={`${baskerville.variable} font-serif text-center text-xl md:text-3xl font-bold text-primary-900`}>
+        {title}
+      </h3>
+    </div>
+  )}
+</div>
         
         {/* Bottom content section - with date and language toggle moved here */}
         <div className="p-4 max-w-screen-xl mx-auto">
