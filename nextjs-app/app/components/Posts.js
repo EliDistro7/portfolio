@@ -192,11 +192,11 @@ export const AllPosts = async () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <div className="text-center">
           <h2 className={`${baskerville.variable} font-serif text-3xl md:text-4xl font-bold text-gray-900 mb-4`}>
-            Featured Stories
+            Featured Updates
           </h2>
           <div className="w-24 h-1 bg-primary-500 mx-auto mb-6"></div>
           <p className="max-w-2xl mx-auto text-lg text-gray-600">
-            Discover our latest articles, stories, and media from across the region
+            Discover our latest articles, stories
           </p>
         </div>
       </div>
