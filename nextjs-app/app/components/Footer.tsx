@@ -65,16 +65,7 @@ const Footer = () => {
       sw: "Kuhusu",
       href: "/about"
     },
-    {
-      en: "Programs",
-      sw: "Mipango",
-      href: "/programs"
-    },
-    {
-      en: "Resources",
-      sw: "Rasilimali",
-      href: "/resources"
-    },
+   
     {
       en: "Blog",
       sw: "Blogu",
