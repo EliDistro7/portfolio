@@ -3,6 +3,7 @@ import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
 import { draftMode } from "next/headers";
 import { VisualEditing, toPlainText } from "next-sanity";
 import { Toaster } from "sonner";
@@ -52,6 +53,19 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+// Define your custom fonts
+const baskerville = Libre_Baskerville({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-baskerville'
+});
+
+const sourceSans = Source_Sans_Pro({
+  subsets: ['latin'],
+  weight: ['600', '700', '900'],
+  variable: '--font-source-sans'
+});
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -66,7 +80,7 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="en" className={`${inter.variable} bg-white text-black`}>
+    <html lang="en" className={`${inter.variable} ${baskerville.variable}  bg-white text-black`}>
       <body>
         <LanguageProvider>
         <section className="min-h-screen ">
@@ -81,9 +95,12 @@ export default async function RootLayout({
           )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
-          <Header />
+
           <main className="">{children}</main>
-          <Footer />
+         
+       
+          
+        
         </section>
        
         <SpeedInsights />

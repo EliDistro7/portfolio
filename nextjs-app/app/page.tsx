@@ -1,26 +1,67 @@
-import { Suspense } from "react";
-import Link from "next/link";
+// app/page.js
+'use client';
 
-import { AllPosts } from "@/app/components/Posts";
-import GetStartedCode from "@/app/components/GetStartedCode";
-import Hero from "./components/HeroSection";
-import { CallToAction } from "./components/CTASection";
-import {ProgramsSection} from './components/ProgramsSections'
+import { useState, useEffect } from 'react';
+import { ChevronDown, Send, X } from 'lucide-react';
 
-export default async function Page() {
+// Import components
+import Navbar from './components/layout/Navbar';
+import HeroSection from './components/sections/HeroSection';
+import AboutSection from './components/sections/AboutSection';
+import ProjectsSection from './components/sections/ProjectSection';
+import ServicesSection from './components/sections/ServiceSection';
+import ContactSection from './components/sections/ContactSection';
+import Footer from './components/layout/Footer';
+import ChatAssistant from './components/layout/ChatBot';
+
+export default function Portfolio() {
+  const [activeSection, setActiveSection] = useState('hero');
+
+  const handleScroll = () => {
+    const sections = ['hero', 'about', 'projects', 'services', 'contact'];
+    
+    for (const section of sections) {
+      const element = document.getElementById(section);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        if (rect.top <= 100 && rect.bottom >= 100) {
+          setActiveSection(section);
+          break;
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <>
-      <div className="bg-gradient-to-r from-red-200 from-0% via-white via-40% relative">
-        <Hero />
-      </div>
-      <div className="border-t border-gray-10">
-        {/* Removed container class to allow AllPosts to be full width */}
-        <aside className="py-12 sm:py-12 w-full">
-          <Suspense>{await AllPosts()}</Suspense>
-        </aside>
-        <ProgramsSection />
-        <CallToAction />
-      </div>
-    </>
+    <main className="bg-gray-900 text-white">
+      {/* Navigation */}
+      <Navbar activeSection={activeSection} />
+      
+      {/* Hero Section */}
+      <HeroSection />
+      
+      {/* About Section */}
+      <AboutSection />
+      
+      {/* Projects Section */}
+      <ProjectsSection />
+      
+      {/* Services Section */}
+      <ServicesSection />
+      
+      {/* Contact Section */}
+      <ContactSection />
+      
+      {/* Footer */}
+      <Footer />
+      
+      {/* AI Chat Assistant */}
+      <ChatAssistant />
+    </main>
   );
 }
