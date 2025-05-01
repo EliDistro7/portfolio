@@ -104,7 +104,7 @@ export default function ContactSection() {
               
               <div className="mt-8 border-t border-gray-700 pt-6">
                 <p className="text-gray-400 text-sm">
-                  Prefer to connect on social media? Feel free to reach out on any platform, and I'll get back to you as soon as possible.
+                  Prefer to connect on social media? Feel free to reach out on any platform, and will get back to you as soon as possible.
                 </p>
               </div>
             </div>

@@ -6,8 +6,7 @@ import { Inter } from "next/font/google";
 import { Libre_Baskerville, Source_Sans_3 as Source_Sans_Pro } from 'next/font/google';
 import { Toaster } from "sonner";
 import { LanguageProvider } from '@/context/LanguageContext';
-import Footer from "@/app/components/Footer";
-import Header from "@/app/components/Header";
+
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
