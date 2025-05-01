@@ -5,8 +5,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Send, X, Sparkles, MessageCircle, PenTool, Clock, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
-import { processUserMessage, detectLanguage } from '@/utils/chatbotUtils';
-import { chatbotData } from '@/data/chatbotData';
+import { processUserMessage, detectLanguage } from '@/utils/chatBotUtils';
+import { chatbotData } from '@/data/chatBotData';
 import ReactMarkdown from 'react-markdown';
 
 export default function ChatBot() {
