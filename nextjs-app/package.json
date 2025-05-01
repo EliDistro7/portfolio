@@ -2,31 +2,23 @@
   "name": "nextjs-app",
   "private": true,
   "scripts": {
-    "predev": "npm run typegen",
     "dev": "next",
-    "prebuild": "npm run typegen",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "typegen": "sanity typegen generate"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@sanity/client": "^6.27.2",
-    "@sanity/image-url": "^1.1.0",
-    "@sanity/uuid": "^3.0.2",
     "@tailwindcss/typography": "^0.5.16",
     "@vercel/speed-insights": "^1.1.0",
     "autoprefixer": "^10.4.20",
     "date-fns": "^3.6.0",
     "lucide-react": "^0.487.0",
     "next": "^15.1.6",
-    "next-sanity": "^9.8.42",
     "react": "^19.0.0",
     "react-awesome-reveal": "^4.3.1",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
     "react-share": "^5.2.2",
-    "sanity": "^3.74.0",
     "sonner": "^1.7.0",
     "styled-components": "^6.1.13",
     "swiper": "^11.2.6"
