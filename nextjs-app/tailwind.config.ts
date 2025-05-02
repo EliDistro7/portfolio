@@ -1,9 +1,14 @@
 import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
-import plugin from 'tailwindcss/plugin';
+import plugin from "tailwindcss/plugin";
 
 export default {
-  content: ["./app/**/*.{ts,tsx}", "./sanity/**/*.{ts,tsx}"],
+  content: [
+    "./app/**/*.{ts,tsx,js,jsx}",
+    "./components/**/*.{ts,tsx,js,jsx}",
+    "./lib/**/*.{ts,tsx,js,jsx}",
+    "./pages/**/*.{ts,tsx,js,jsx}", // optional if using pages for static routes
+  ],
   theme: {
     container: {
       center: true,
@@ -18,35 +23,32 @@ export default {
       colors: {
         black: "#1a1a1a",
         white: "#fefefe",
-        // Vibrant orange primary palette
         primary: {
           50: "#fff7ed",
           100: "#ffefd5",
           200: "#ffdfaa",
           300: "#ffcf80",
           400: "#ffbf55",
-          500: "#f59e0b", // Main brand orange - energetic yet professional
+          500: "#f59e0b",
           600: "#d97706",
           700: "#b45309",
           800: "#92400e",
           900: "#78350f",
           950: "#451a03",
         },
-        // Complementary blue (for contrast)
         secondary: {
           50: "#eff6ff",
           100: "#dbeafe",
           200: "#bfdbfe",
           300: "#93c5fd",
           400: "#60a5fa",
-          500: "#3b82f6", // Trustworthy blue
+          500: "#3b82f6",
           600: "#2563eb",
           700: "#1d4ed8",
           800: "#1e40af",
           900: "#1e3a8a",
           950: "#172554",
         },
-        // Earthy warm neutrals
         neutral: {
           50: "#fafaf9",
           100: "#f5f5f4",
@@ -59,7 +61,6 @@ export default {
           800: "#292524",
           900: "#1c1917",
         },
-        // Success/error states
         success: {
           50: "#f0fdf4",
           100: "#dcfce7",
@@ -84,17 +85,16 @@ export default {
           800: "#991b1b",
           900: "#7f1d1d",
         },
-        // Accent colors
         accent: {
-          gold: "#facc15", // For highlights
-          amber: "#fbbf24", // Warm accent
-          teal: "#0d9488", // Cool balance
+          gold: "#facc15",
+          amber: "#fbbf24",
+          teal: "#0d9488",
         },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],
-        heading: ["var(--font-bebas-neue)", "sans-serif"], // Tall, bold
-        display: ["var(--font-archivo-black)", "sans-serif"], // Ultra-bold
+        heading: ["var(--font-bebas-neue)", "sans-serif"],
+        display: ["var(--font-archivo-black)", "sans-serif"],
       },
       fontSize: {
         display: ["4.5rem", { lineHeight: "1", fontWeight: "900" }],
@@ -127,20 +127,21 @@ export default {
   },
   plugins: [
     typography,
-    plugin(function({ addUtilities }) {
+    plugin(function ({ addUtilities }) {
       addUtilities({
-        '.text-balance': {
-          'text-wrap': 'balance',
+        ".text-balance": {
+          "text-wrap": "balance",
         },
-        '.scroll-smooth': {
-          'scroll-behavior': 'smooth',
+        ".scroll-smooth": {
+          "scroll-behavior": "smooth",
         },
-        '.font-outline': {
-          '-webkit-text-stroke': '1px currentColor',
-          'text-stroke': '1px currentColor',
+        ".font-outline": {
+          "-webkit-text-stroke": "1px currentColor",
+          "text-stroke": "1px currentColor",
         },
-        '.bg-radial-orange': {
-          'background-image': 'radial-gradient(circle, rgba(245,158,11,0.1) 0%, rgba(255,255,255,0) 70%)',
+        ".bg-radial-orange": {
+          "background-image":
+            "radial-gradient(circle, rgba(245,158,11,0.1) 0%, rgba(255,255,255,0) 70%)",
         },
       });
     }),
