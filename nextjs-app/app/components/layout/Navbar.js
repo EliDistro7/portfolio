@@ -10,13 +10,17 @@ export default function Navbar({ activeSection }) {
   
   const toggleLanguage = () => {
     setLanguage(prevLang => prevLang === 'en' ? 'sw' : 'en');
+
+    
   };
   
   const navItems = [
     { id: 'hero', label: { en: 'Home', sw: 'Nyumbani' } },
     { id: 'about', label: { en: 'About', sw: 'Kuhusu' } },
     { id: 'projects', label: { en: 'Projects', sw: 'Miradi' } },
+    { id: 'globe', label: 'Globe' }, 
     { id: 'services', label: { en: 'Services', sw: 'Huduma' } },
+
     { id: 'contact', label: { en: 'Contact', sw: 'Mawasiliano' } },
   ];
 

@@ -1,4 +1,3 @@
-// app/page.js
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -8,6 +7,7 @@ import { ChevronDown, Send, X } from 'lucide-react';
 import Navbar from './components/layout/Navbar';
 import HeroSection from './components/sections/HeroSection';
 import AboutSection from './components/sections/AboutSection';
+import GlobeSection from './components/sections/GlobeSection'; // Add this line
 import ProjectsSection from './components/sections/ProjectSection';
 import ServicesSection from './components/sections/ServiceSection';
 import ContactSection from './components/sections/ContactSection';
@@ -18,7 +18,7 @@ export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('hero');
 
   const handleScroll = () => {
-    const sections = ['hero', 'about', 'projects', 'services', 'contact'];
+    const sections = ['hero', 'about', 'globe', 'projects', 'services', 'contact']; // Add 'globe' to the array
     
     for (const section of sections) {
       const element = document.getElementById(section);
@@ -47,6 +47,9 @@ export default function Portfolio() {
       
       {/* About Section */}
       <AboutSection />
+      
+      {/* Globe Section - Add this line */}
+      <GlobeSection />
       
       {/* Projects Section */}
       <ProjectsSection />
