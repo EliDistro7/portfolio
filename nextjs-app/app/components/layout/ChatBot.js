@@ -6,7 +6,7 @@ import { Send, X, Sparkles, MessageCircle, PenTool, Clock, ChevronRight } from '
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { processUserMessage, detectLanguage } from '@/utils/chatBotUtils';
-import { chatbotData } from '@/data/chatBotData';
+import { chatbotData } from '@/data/index';  // Updated import path
 import ReactMarkdown from 'react-markdown';
 
 export default function ChatBot() {
@@ -25,9 +25,13 @@ export default function ChatBot() {
   // Initialize chat messages when component mounts or language changes
   useEffect(() => {
     setChatMessages([
-      { role: 'bot', content: chatbotData.welcome[language] }
+      { 
+        role: 'bot', 
+        content: chatbotData.welcome[language] || chatbotData.welcome['en'],
+        timestamp: new Date().toISOString()
+      }
     ]);
-    setSuggestions(chatbotData.prompts[language]);
+    setSuggestions(chatbotData.prompts[language] || chatbotData.prompts['en']);
   }, [language]);
 
   // Auto-scroll to the latest message
@@ -94,6 +98,7 @@ export default function ChatBot() {
     setTimeout(() => {
       const responseData = processUserMessage(userMessage, chatbotData, detectedLang);
       
+      // Add bot response
       setChatMessages(prev => [...prev, { 
         role: 'bot', 
         content: responseData.text,
@@ -101,12 +106,17 @@ export default function ChatBot() {
       }]);
       
       // Update suggestions and active service
-      setSuggestions(responseData.suggestions);
+      if (responseData.suggestions) {
+        setSuggestions(responseData.suggestions);
+      }
       
       // Try to identify service from response
-      if (responseData.text.startsWith('**')) {
+      if (responseData.service) {
+        setActiveService(responseData.service);
+      } else if (responseData.text.startsWith('**')) {
         const serviceTitle = responseData.text.split('\n')[0].replace(/\*\*/g, '');
-        if (chatbotData.serviceDescriptions[detectedLang][serviceTitle]) {
+        const services = Object.keys(chatbotData.serviceDescriptions[detectedLang] || chatbotData.serviceDescriptions['en']);
+        if (services.includes(serviceTitle)) {
           setActiveService(serviceTitle);
         }
       } else {
@@ -247,6 +257,11 @@ export default function ChatBot() {
     tap: { scale: 0.95 }
   };
 
+  // Get appropriate UI text based on language
+  const getUiText = (key) => {
+    return chatbotData.ui[key]?.[language] || chatbotData.ui[key]?.['en'] || key;
+  };
+
   return (
     <div className="fixed bottom-6 right-6 z-40" ref={containerRef}>
       {!isChatOpen && (
@@ -311,11 +326,11 @@ export default function ChatBot() {
                 </div>
                 <div>
                   <h3 className="font-medium text-white text-lg">
-                    {chatbotData.ui.title[language]}
+                    {getUiText('title')}
                   </h3>
                   <div className="flex items-center text-xs text-blue-100 opacity-90">
                     <Clock size={12} className="mr-1" /> 
-                    <span>Online Now</span>
+                    <span>{getUiText('status') || 'Online Now'}</span>
                   </div>
                 </div>
               </div>
@@ -481,7 +496,7 @@ export default function ChatBot() {
                     backdropFilter: 'blur(5px)',
                     boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.2)'
                   }}
-                  placeholder={chatbotData.ui.inputPlaceholder[language]}
+                  placeholder={getUiText('inputPlaceholder')}
                 />
                 <motion.button
                   type="submit"
@@ -502,16 +517,13 @@ export default function ChatBot() {
               {/* Contact info button */}
               <div className="flex justify-center pt-1">
                 <motion.button
-                  onClick={() => handleQuickPrompt(chatbotData.ui.contactUs[language])}
+                  onClick={() => handleQuickPrompt(getUiText('contactUs'))}
                   className="text-xs text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   style={{ textShadow: '0 0 10px rgba(59, 130, 246, 0.3)' }}
                 >
-                  {chatbotData.ui.contactUs && chatbotData.ui.contactUs[language] ? 
-                    chatbotData.ui.contactUs[language] : 
-                    (language === "sw" ? "Wasiliana Nasi" : "Contact Us")
-                  }
+                  {getUiText('contactUs')}
                 </motion.button>
               </div>
             </div>
