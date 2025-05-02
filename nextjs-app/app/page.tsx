@@ -12,7 +12,7 @@ import ProjectsSection from './components/sections/ProjectSection';
 import ServicesSection from './components/sections/ServiceSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/layout/Footer';
-import ChatAssistant from './components/layout/ChatBot';
+import ChatAssistant from './components/layout/ChatBot/index';
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('hero');
