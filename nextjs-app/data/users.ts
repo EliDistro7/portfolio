@@ -9,7 +9,7 @@ export const sampleUsers = [
       joinDate: '2024-01-15',
       subscription: {
         plan: 'Premium',
-        status: 'Active',
+        status: 'Active' as const,
         expiryDate: '2024-12-15',
         amount: 50000
       }
@@ -22,7 +22,7 @@ export const sampleUsers = [
       joinDate: '2024-02-20',
       subscription: {
         plan: 'Basic',
-        status: 'Active',
+        status: 'Active' as const,
         expiryDate: '2024-08-20',
         amount: 20000
       }
@@ -35,7 +35,7 @@ export const sampleUsers = [
       joinDate: '2023-12-10',
       subscription: {
         plan: 'Premium',
-        status: 'Expired',
+        status: 'Expired' as const,
         expiryDate: '2024-07-10',
         amount: 45000
       }
