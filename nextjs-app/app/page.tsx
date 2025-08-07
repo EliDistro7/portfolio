@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import {sampleUsers} from '@/data/users';
 import { 
   Users, 
   UserPlus, 
@@ -20,6 +19,75 @@ import {
   XCircle,
   Clock
 } from 'lucide-react';
+
+// Sample Tanzanian users data
+const sampleUsers = [
+  {
+    id: 1,
+    name: 'Amina Hassan Mwalimu',
+    email: 'amina.hassan@gmail.com',
+    phone: '+255 712 345 678',
+    joinDate: '2024-01-15',
+    subscription: {
+      plan: 'Msingi',
+      status: 'Active' as const,
+      expiryDate: '2024-07-15',
+      amount: 125000
+    }
+  },
+  {
+    id: 2,
+    name: 'Joseph Mkuu Kigoma',
+    email: 'joseph.mkuu@yahoo.com',
+    phone: '+255 754 987 321',
+    joinDate: '2024-02-20',
+    subscription: {
+      plan: 'Kuu',
+      status: 'Active' as const,
+      expiryDate: '2025-02-20',
+      amount: 250000
+    }
+  },
+  {
+    id: 3,
+    name: 'Fatuma Said Kibwana',
+    email: 'fatuma.said@hotmail.com',
+    phone: '+255 689 654 987',
+    joinDate: '2023-11-10',
+    subscription: {
+      plan: 'Msingi',
+      status: 'Expired' as const,
+      expiryDate: '2024-05-10',
+      amount: 125000
+    }
+  },
+  {
+    id: 4,
+    name: 'Emmanuel Mwanga Dar',
+    email: 'emmanuel.mwanga@gmail.com',
+    phone: '+255 765 432 109',
+    joinDate: '2024-03-05',
+    subscription: {
+      plan: 'VIP',
+      status: 'Active' as const,
+      expiryDate: '2025-03-05',
+      amount: 500000
+    }
+  },
+  {
+    id: 5,
+    name: 'Rehema Juma Msimbazi',
+    email: 'rehema.juma@outlook.com',
+    phone: '+255 743 876 543',
+    joinDate: '2024-04-12',
+    subscription: {
+      plan: 'Kuu',
+      status: 'Pending' as const,
+      expiryDate: '2024-10-12',
+      amount: 250000
+    }
+  }
+];
 
 // Type definitions
 interface Subscription {
@@ -60,21 +128,21 @@ const AdminDashboard = () => {
   const [showAddUser, setShowAddUser] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('All');
+  const [filterStatus, setFilterStatus] = useState('Zote');
 
   const [newUser, setNewUser] = useState<NewUserForm>({
     name: '',
     email: '',
     phone: '',
-    plan: 'Basic',
-    amount: 49.99,
+    plan: 'Msingi',
+    amount: 125000,
     duration: '6'
   });
 
   const subscriptionPlans: SubscriptionPlan[] = [
-    { name: 'Basic', price: 49.99, duration: '6 months' },
-    { name: 'Premium', price: 99.99, duration: '12 months' },
-    { name: 'VIP', price: 199.99, duration: '12 months' }
+    { name: 'Msingi', price: 125000, duration: 'miezi 6' },
+    { name: 'Kuu', price: 250000, duration: 'mwaka 1' },
+    { name: 'VIP', price: 500000, duration: 'mwaka 1' }
   ];
 
   const handleAddUser = (): void => {
@@ -101,8 +169,8 @@ const AdminDashboard = () => {
       name: '',
       email: '',
       phone: '',
-      plan: 'Basic',
-      amount: 49.99,
+      plan: 'Msingi',
+      amount: 125000,
       duration: '6'
     });
     setShowAddUser(false);
@@ -151,8 +219,8 @@ const AdminDashboard = () => {
       name: '',
       email: '',
       phone: '',
-      plan: 'Basic',
-      amount: 49.99,
+      plan: 'Msingi',
+      amount: 125000,
       duration: '6'
     });
     setShowAddUser(false);
@@ -161,7 +229,7 @@ const AdminDashboard = () => {
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'All' || user.subscription.status === filterStatus;
+    const matchesFilter = filterStatus === 'Zote' || user.subscription.status === filterStatus;
     return matchesSearch && matchesFilter;
   });
 
@@ -183,6 +251,24 @@ const AdminDashboard = () => {
     }
   };
 
+  const getStatusSwahili = (status: Subscription['status']): string => {
+    switch (status) {
+      case 'Active': return 'Inatumika';
+      case 'Expired': return 'Imeisha';
+      case 'Pending': return 'Inasubiri';
+      default: return 'Haijulikani';
+    }
+  };
+
+  const formatTZS = (amount: number): string => {
+    return new Intl.NumberFormat('sw-TZ', {
+      style: 'currency',
+      currency: 'TZS',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+
   const stats = {
     totalUsers: users.length,
     activeUsers: users.filter(u => u.subscription.status === 'Active').length,
@@ -197,8 +283,8 @@ const AdminDashboard = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Club Admin Dashboard</h1>
-              <p className="text-gray-600">Manage your club members and subscriptions</p>
+              <h1 className="text-3xl font-bold text-gray-900">Dashibodi ya Msimamizi wa Klabu</h1>
+              <p className="text-gray-600">Simamia wanachama na michango ya klabu yako</p>
             </div>
             <button
               onClick={() => {
@@ -207,8 +293,8 @@ const AdminDashboard = () => {
                   name: '',
                   email: '',
                   phone: '',
-                  plan: 'Basic',
-                  amount: 49.99,
+                  plan: 'Msingi',
+                  amount: 125000,
                   duration: '6'
                 });
                 setShowAddUser(true);
@@ -216,7 +302,7 @@ const AdminDashboard = () => {
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
             >
               <UserPlus className="w-5 h-5" />
-              Add New Member
+              Ongeza Mwanachama Mpya
             </button>
           </div>
         </div>
@@ -228,7 +314,7 @@ const AdminDashboard = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Members</p>
+                <p className="text-sm font-medium text-gray-600">Wanachama Wote</p>
                 <p className="text-3xl font-bold text-gray-900">{stats.totalUsers}</p>
               </div>
               <div className="p-3 bg-blue-100 rounded-lg">
@@ -240,7 +326,7 @@ const AdminDashboard = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Active Members</p>
+                <p className="text-sm font-medium text-gray-600">Wanachama Hai</p>
                 <p className="text-3xl font-bold text-green-600">{stats.activeUsers}</p>
               </div>
               <div className="p-3 bg-green-100 rounded-lg">
@@ -252,7 +338,7 @@ const AdminDashboard = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Expired</p>
+                <p className="text-sm font-medium text-gray-600">Zilizo Isha</p>
                 <p className="text-3xl font-bold text-red-600">{stats.expiredUsers}</p>
               </div>
               <div className="p-3 bg-red-100 rounded-lg">
@@ -264,8 +350,8 @@ const AdminDashboard = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Monthly Revenue</p>
-                <p className="text-3xl font-bold text-green-600">${stats.totalRevenue.toFixed(2)}</p>
+                <p className="text-sm font-medium text-gray-600">Mapato ya Mwezi</p>
+                <p className="text-3xl font-bold text-green-600">{formatTZS(stats.totalRevenue)}</p>
               </div>
               <div className="p-3 bg-green-100 rounded-lg">
                 <DollarSign className="w-6 h-6 text-green-600" />
@@ -283,7 +369,7 @@ const AdminDashboard = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
-                  placeholder="Search members..."
+                  placeholder="Tafuta wanachama..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -297,10 +383,10 @@ const AdminDashboard = () => {
                     onChange={(e) => setFilterStatus(e.target.value)}
                     className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    <option value="All">All Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Expired">Expired</option>
-                    <option value="Pending">Pending</option>
+                    <option value="Zote">Hali Zote</option>
+                    <option value="Active">Inatumika</option>
+                    <option value="Expired">Imeisha</option>
+                    <option value="Pending">Inasubiri</option>
                   </select>
                 </div>
               </div>
@@ -312,12 +398,12 @@ const AdminDashboard = () => {
             <table className="w-full">
               <thead className="bg-gray-50 border-b">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Member</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Contact</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Subscription</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Status</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Expiry</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Actions</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Mwanachama</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Mawasiliano</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Mpango</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Hali</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Mwisho</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Vitendo</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -326,7 +412,7 @@ const AdminDashboard = () => {
                     <td className="px-6 py-4">
                       <div>
                         <p className="font-medium text-gray-900">{user.name}</p>
-                        <p className="text-sm text-gray-500">Joined {user.joinDate}</p>
+                        <p className="text-sm text-gray-500">Alijiunga {user.joinDate}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -344,13 +430,13 @@ const AdminDashboard = () => {
                     <td className="px-6 py-4">
                       <div>
                         <p className="font-medium text-gray-900">{user.subscription.plan}</p>
-                        <p className="text-sm text-gray-500">${user.subscription.amount}/month</p>
+                        <p className="text-sm text-gray-500">{formatTZS(user.subscription.amount)}/mwezi</p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(user.subscription.status)}`}>
                         {getStatusIcon(user.subscription.status)}
-                        {user.subscription.status}
+                        {getStatusSwahili(user.subscription.status)}
                       </span>
                     </td>
                     <td className="px-6 py-4">
@@ -364,12 +450,14 @@ const AdminDashboard = () => {
                         <button
                           onClick={() => handleEditUser(user)}
                           className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Hariri"
                         >
                           <Edit3 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteUser(user.id)}
                           className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Futa"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -390,7 +478,7 @@ const AdminDashboard = () => {
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-gray-900">
-                  {editingUser ? 'Edit Member' : 'Add New Member'}
+                  {editingUser ? 'Hariri Mwanachama' : 'Ongeza Mwanachama Mpya'}
                 </h2>
                 <button
                   onClick={() => {
@@ -405,40 +493,40 @@ const AdminDashboard = () => {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Jina Kamili</label>
                   <input
                     type="text"
                     value={newUser.name}
                     onChange={(e) => setNewUser({...newUser, name: e.target.value})}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Enter full name"
+                    placeholder="Ingiza jina kamili"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Barua Pepe</label>
                   <input
                     type="email"
                     value={newUser.email}
                     onChange={(e) => setNewUser({...newUser, email: e.target.value})}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Enter email address"
+                    placeholder="Ingiza anwani ya barua pepe"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nambari ya Simu</label>
                   <input
                     type="tel"
                     value={newUser.phone}
                     onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Enter phone number"
+                    placeholder="+255 xxx xxx xxx"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Subscription Plan</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Mpango wa Michango</label>
                   <select
                     value={newUser.plan}
                     onChange={(e) => {
@@ -446,30 +534,30 @@ const AdminDashboard = () => {
                       setNewUser({
                         ...newUser, 
                         plan: e.target.value,
-                        amount: plan ? plan.price : 49.99
+                        amount: plan ? plan.price : 125000
                       });
                     }}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     {subscriptionPlans.map(plan => (
                       <option key={plan.name} value={plan.name}>
-                        {plan.name} - ${plan.price} ({plan.duration})
+                        {plan.name} - {formatTZS(plan.price)} ({plan.duration})
                       </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Muda</label>
                   <select
                     value={newUser.duration}
                     onChange={(e) => setNewUser({...newUser, duration: e.target.value})}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    <option value="1">1 Month</option>
-                    <option value="3">3 Months</option>
-                    <option value="6">6 Months</option>
-                    <option value="12">12 Months</option>
+                    <option value="1">Mwezi 1</option>
+                    <option value="3">Miezi 3</option>
+                    <option value="6">Miezi 6</option>
+                    <option value="12">Miezi 12</option>
                   </select>
                 </div>
 
@@ -482,14 +570,14 @@ const AdminDashboard = () => {
                     }}
                     className="flex-1 px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                   >
-                    Cancel
+                    Ghairi
                   </button>
                   <button
                     type="button"
                     onClick={editingUser ? handleUpdateUser : handleAddUser}
                     className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                   >
-                    {editingUser ? 'Update Member' : 'Add Member'}
+                    {editingUser ? 'Sasisha Mwanachama' : 'Ongeza Mwanachama'}
                   </button>
                 </div>
               </div>
